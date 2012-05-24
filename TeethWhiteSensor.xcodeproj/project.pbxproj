@@ -1,0 +1,458 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		CE51D558156EB58E00632943 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE51D557156EB58E00632943 /* UIKit.framework */; };
+		CE51D55A156EB58E00632943 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE51D559156EB58E00632943 /* Foundation.framework */; };
+		CE51D55C156EB58E00632943 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE51D55B156EB58E00632943 /* CoreGraphics.framework */; };
+		CE51D562156EB58E00632943 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CE51D560156EB58E00632943 /* InfoPlist.strings */; };
+		CE51D564156EB58E00632943 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CE51D563156EB58E00632943 /* main.m */; };
+		CE51D568156EB58E00632943 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CE51D567156EB58E00632943 /* AppDelegate.m */; };
+		CE51D56B156EB58E00632943 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE51D569156EB58E00632943 /* MainStoryboard_iPhone.storyboard */; };
+		CE51D56E156EB58E00632943 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE51D56C156EB58E00632943 /* MainStoryboard_iPad.storyboard */; };
+		CE51D571156EB58E00632943 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE51D570156EB58E00632943 /* ViewController.m */; };
+		CE51D579156EB58E00632943 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE51D578156EB58E00632943 /* SenTestingKit.framework */; };
+		CE51D57A156EB58E00632943 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE51D557156EB58E00632943 /* UIKit.framework */; };
+		CE51D57B156EB58E00632943 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE51D559156EB58E00632943 /* Foundation.framework */; };
+		CE51D583156EB58E00632943 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CE51D581156EB58E00632943 /* InfoPlist.strings */; };
+		CE51D586156EB58E00632943 /* TeethWhiteSensorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CE51D585156EB58E00632943 /* TeethWhiteSensorTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		CE51D57C156EB58E00632943 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CE51D54A156EB58E00632943 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CE51D552156EB58E00632943;
+			remoteInfo = TeethWhiteSensor;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		CE51D553156EB58E00632943 /* TeethWhiteSensor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TeethWhiteSensor.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE51D557156EB58E00632943 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		CE51D559156EB58E00632943 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		CE51D55B156EB58E00632943 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		CE51D55F156EB58E00632943 /* TeethWhiteSensor-Info.plist */ = {isa = PBXFileReference; path = "TeethWhiteSensor-Info.plist"; sourceTree = "<group>"; };
+		CE51D561156EB58E00632943 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		CE51D563156EB58E00632943 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		CE51D565156EB58E00632943 /* TeethWhiteSensor-Prefix.pch */ = {isa = PBXFileReference; path = "TeethWhiteSensor-Prefix.pch"; sourceTree = "<group>"; };
+		CE51D566156EB58E00632943 /* AppDelegate.h */ = {isa = PBXFileReference; path = AppDelegate.h; sourceTree = "<group>"; };
+		CE51D567156EB58E00632943 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		CE51D56A156EB58E00632943 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
+		CE51D56D156EB58E00632943 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
+		CE51D56F156EB58E00632943 /* ViewController.h */ = {isa = PBXFileReference; path = ViewController.h; sourceTree = "<group>"; };
+		CE51D570156EB58E00632943 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		CE51D577156EB58E00632943 /* TeethWhiteSensorTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TeethWhiteSensorTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE51D578156EB58E00632943 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		CE51D580156EB58E00632943 /* TeethWhiteSensorTests-Info.plist */ = {isa = PBXFileReference; path = "TeethWhiteSensorTests-Info.plist"; sourceTree = "<group>"; };
+		CE51D582156EB58E00632943 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		CE51D584156EB58E00632943 /* TeethWhiteSensorTests.h */ = {isa = PBXFileReference; path = TeethWhiteSensorTests.h; sourceTree = "<group>"; };
+		CE51D585156EB58E00632943 /* TeethWhiteSensorTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TeethWhiteSensorTests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		CE51D550156EB58E00632943 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CE51D558156EB58E00632943 /* UIKit.framework in Frameworks */,
+				CE51D55A156EB58E00632943 /* Foundation.framework in Frameworks */,
+				CE51D55C156EB58E00632943 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CE51D573156EB58E00632943 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CE51D579156EB58E00632943 /* SenTestingKit.framework in Frameworks */,
+				CE51D57A156EB58E00632943 /* UIKit.framework in Frameworks */,
+				CE51D57B156EB58E00632943 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		CE51D548156EB58E00632943 = {
+			isa = PBXGroup;
+			children = (
+				CE51D55D156EB58E00632943 /* TeethWhiteSensor */,
+				CE51D57E156EB58E00632943 /* TeethWhiteSensorTests */,
+				CE51D556156EB58E00632943 /* Frameworks */,
+				CE51D554156EB58E00632943 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		CE51D554156EB58E00632943 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CE51D553156EB58E00632943 /* TeethWhiteSensor.app */,
+				CE51D577156EB58E00632943 /* TeethWhiteSensorTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		CE51D556156EB58E00632943 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				CE51D557156EB58E00632943 /* UIKit.framework */,
+				CE51D559156EB58E00632943 /* Foundation.framework */,
+				CE51D55B156EB58E00632943 /* CoreGraphics.framework */,
+				CE51D578156EB58E00632943 /* SenTestingKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		CE51D55D156EB58E00632943 /* TeethWhiteSensor */ = {
+			isa = PBXGroup;
+			children = (
+				CE51D566156EB58E00632943 /* AppDelegate.h */,
+				CE51D567156EB58E00632943 /* AppDelegate.m */,
+				CE51D569156EB58E00632943 /* MainStoryboard_iPhone.storyboard */,
+				CE51D56C156EB58E00632943 /* MainStoryboard_iPad.storyboard */,
+				CE51D56F156EB58E00632943 /* ViewController.h */,
+				CE51D570156EB58E00632943 /* ViewController.m */,
+				CE51D55E156EB58E00632943 /* Supporting Files */,
+			);
+			path = TeethWhiteSensor;
+			sourceTree = "<group>";
+		};
+		CE51D55E156EB58E00632943 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				CE51D55F156EB58E00632943 /* TeethWhiteSensor-Info.plist */,
+				CE51D560156EB58E00632943 /* InfoPlist.strings */,
+				CE51D563156EB58E00632943 /* main.m */,
+				CE51D565156EB58E00632943 /* TeethWhiteSensor-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		CE51D57E156EB58E00632943 /* TeethWhiteSensorTests */ = {
+			isa = PBXGroup;
+			children = (
+				CE51D584156EB58E00632943 /* TeethWhiteSensorTests.h */,
+				CE51D585156EB58E00632943 /* TeethWhiteSensorTests.m */,
+				CE51D57F156EB58E00632943 /* Supporting Files */,
+			);
+			path = TeethWhiteSensorTests;
+			sourceTree = "<group>";
+		};
+		CE51D57F156EB58E00632943 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				CE51D580156EB58E00632943 /* TeethWhiteSensorTests-Info.plist */,
+				CE51D581156EB58E00632943 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		CE51D552156EB58E00632943 /* TeethWhiteSensor */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CE51D589156EB58E00632943 /* Build configuration list for PBXNativeTarget "TeethWhiteSensor" */;
+			buildPhases = (
+				CE51D54F156EB58E00632943 /* Sources */,
+				CE51D550156EB58E00632943 /* Frameworks */,
+				CE51D551156EB58E00632943 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TeethWhiteSensor;
+			productName = TeethWhiteSensor;
+			productReference = CE51D553156EB58E00632943 /* TeethWhiteSensor.app */;
+			productType = "com.apple.product-type.application";
+		};
+		CE51D576156EB58E00632943 /* TeethWhiteSensorTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CE51D58C156EB58E00632943 /* Build configuration list for PBXNativeTarget "TeethWhiteSensorTests" */;
+			buildPhases = (
+				CE51D572156EB58E00632943 /* Sources */,
+				CE51D573156EB58E00632943 /* Frameworks */,
+				CE51D574156EB58E00632943 /* Resources */,
+				CE51D575156EB58E00632943 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				CE51D57D156EB58E00632943 /* PBXTargetDependency */,
+			);
+			name = TeethWhiteSensorTests;
+			productName = TeethWhiteSensorTests;
+			productReference = CE51D577156EB58E00632943 /* TeethWhiteSensorTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		CE51D54A156EB58E00632943 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0430;
+			};
+			buildConfigurationList = CE51D54D156EB58E00632943 /* Build configuration list for PBXProject "TeethWhiteSensor" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = CE51D548156EB58E00632943;
+			productRefGroup = CE51D554156EB58E00632943 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				CE51D552156EB58E00632943 /* TeethWhiteSensor */,
+				CE51D576156EB58E00632943 /* TeethWhiteSensorTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		CE51D551156EB58E00632943 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CE51D562156EB58E00632943 /* InfoPlist.strings in Resources */,
+				CE51D56B156EB58E00632943 /* MainStoryboard_iPhone.storyboard in Resources */,
+				CE51D56E156EB58E00632943 /* MainStoryboard_iPad.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CE51D574156EB58E00632943 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CE51D583156EB58E00632943 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		CE51D575156EB58E00632943 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		CE51D54F156EB58E00632943 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CE51D564156EB58E00632943 /* main.m in Sources */,
+				CE51D568156EB58E00632943 /* AppDelegate.m in Sources */,
+				CE51D571156EB58E00632943 /* ViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CE51D572156EB58E00632943 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CE51D586156EB58E00632943 /* TeethWhiteSensorTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		CE51D57D156EB58E00632943 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CE51D552156EB58E00632943 /* TeethWhiteSensor */;
+			targetProxy = CE51D57C156EB58E00632943 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		CE51D560156EB58E00632943 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CE51D561156EB58E00632943 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		CE51D569156EB58E00632943 /* MainStoryboard_iPhone.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CE51D56A156EB58E00632943 /* en */,
+			);
+			name = MainStoryboard_iPhone.storyboard;
+			sourceTree = "<group>";
+		};
+		CE51D56C156EB58E00632943 /* MainStoryboard_iPad.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CE51D56D156EB58E00632943 /* en */,
+			);
+			name = MainStoryboard_iPad.storyboard;
+			sourceTree = "<group>";
+		};
+		CE51D581156EB58E00632943 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CE51D582156EB58E00632943 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		CE51D587156EB58E00632943 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		CE51D588156EB58E00632943 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		CE51D58A156EB58E00632943 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "TeethWhiteSensor/TeethWhiteSensor-Prefix.pch";
+				INFOPLIST_FILE = "TeethWhiteSensor/TeethWhiteSensor-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		CE51D58B156EB58E00632943 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "TeethWhiteSensor/TeethWhiteSensor-Prefix.pch";
+				INFOPLIST_FILE = "TeethWhiteSensor/TeethWhiteSensor-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		CE51D58D156EB58E00632943 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/TeethWhiteSensor.app/TeethWhiteSensor";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "TeethWhiteSensor/TeethWhiteSensor-Prefix.pch";
+				INFOPLIST_FILE = "TeethWhiteSensorTests/TeethWhiteSensorTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		CE51D58E156EB58E00632943 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/TeethWhiteSensor.app/TeethWhiteSensor";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "TeethWhiteSensor/TeethWhiteSensor-Prefix.pch";
+				INFOPLIST_FILE = "TeethWhiteSensorTests/TeethWhiteSensorTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		CE51D54D156EB58E00632943 /* Build configuration list for PBXProject "TeethWhiteSensor" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE51D587156EB58E00632943 /* Debug */,
+				CE51D588156EB58E00632943 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CE51D589156EB58E00632943 /* Build configuration list for PBXNativeTarget "TeethWhiteSensor" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE51D58A156EB58E00632943 /* Debug */,
+				CE51D58B156EB58E00632943 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		CE51D58C156EB58E00632943 /* Build configuration list for PBXNativeTarget "TeethWhiteSensorTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE51D58D156EB58E00632943 /* Debug */,
+				CE51D58E156EB58E00632943 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = CE51D54A156EB58E00632943 /* Project object */;
+}
