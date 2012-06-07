@@ -23,6 +23,7 @@
 
 @synthesize picker = _picker;
 @synthesize takePhoto = _takePhoto;
+@synthesize imageView = _imageView;
 
 - (void)viewDidLoad
 {
@@ -132,7 +133,6 @@
     //savePPM(seg, argv[5]);
     
     printf("got %d components\n", num_ccs);
-    printf("done! uff...thats hard work.\n");
     
     // When finished, release the context
     CGContextRelease(cgctx); 
@@ -141,6 +141,9 @@
     {
         free(data);
     }
+    
+    self.imageView.image = fullImage;
+    
 }
 
 #pragma Button actions

@@ -11,6 +11,7 @@
 @interface ViewController : UIViewController<UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIButton *takePhoto;
+@property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (strong, nonatomic) UIImagePickerController * picker;
 
 - (IBAction)takePhotoTapped:(id)sender;
