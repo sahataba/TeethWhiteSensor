@@ -38,21 +38,21 @@
 		CE51D557156EB58E00632943 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		CE51D559156EB58E00632943 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		CE51D55B156EB58E00632943 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		CE51D55F156EB58E00632943 /* TeethWhiteSensor-Info.plist */ = {isa = PBXFileReference; path = "TeethWhiteSensor-Info.plist"; sourceTree = "<group>"; };
+		CE51D55F156EB58E00632943 /* TeethWhiteSensor-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "TeethWhiteSensor-Info.plist"; sourceTree = "<group>"; };
 		CE51D561156EB58E00632943 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		CE51D563156EB58E00632943 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		CE51D565156EB58E00632943 /* TeethWhiteSensor-Prefix.pch */ = {isa = PBXFileReference; path = "TeethWhiteSensor-Prefix.pch"; sourceTree = "<group>"; };
-		CE51D566156EB58E00632943 /* AppDelegate.h */ = {isa = PBXFileReference; path = AppDelegate.h; sourceTree = "<group>"; };
+		CE51D565156EB58E00632943 /* TeethWhiteSensor-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TeethWhiteSensor-Prefix.pch"; sourceTree = "<group>"; };
+		CE51D566156EB58E00632943 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		CE51D567156EB58E00632943 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		CE51D56A156EB58E00632943 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
 		CE51D56D156EB58E00632943 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
-		CE51D56F156EB58E00632943 /* ViewController.h */ = {isa = PBXFileReference; path = ViewController.h; sourceTree = "<group>"; };
+		CE51D56F156EB58E00632943 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		CE51D570156EB58E00632943 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		CE51D577156EB58E00632943 /* TeethWhiteSensorTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TeethWhiteSensorTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE51D578156EB58E00632943 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
-		CE51D580156EB58E00632943 /* TeethWhiteSensorTests-Info.plist */ = {isa = PBXFileReference; path = "TeethWhiteSensorTests-Info.plist"; sourceTree = "<group>"; };
+		CE51D580156EB58E00632943 /* TeethWhiteSensorTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "TeethWhiteSensorTests-Info.plist"; sourceTree = "<group>"; };
 		CE51D582156EB58E00632943 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		CE51D584156EB58E00632943 /* TeethWhiteSensorTests.h */ = {isa = PBXFileReference; path = TeethWhiteSensorTests.h; sourceTree = "<group>"; };
+		CE51D584156EB58E00632943 /* TeethWhiteSensorTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TeethWhiteSensorTests.h; sourceTree = "<group>"; };
 		CE51D585156EB58E00632943 /* TeethWhiteSensorTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TeethWhiteSensorTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
