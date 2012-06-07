@@ -21,6 +21,8 @@
 		CE51D57B156EB58E00632943 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE51D559156EB58E00632943 /* Foundation.framework */; };
 		CE51D583156EB58E00632943 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CE51D581156EB58E00632943 /* InfoPlist.strings */; };
 		CE51D586156EB58E00632943 /* TeethWhiteSensorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CE51D585156EB58E00632943 /* TeethWhiteSensorTests.m */; };
+		CE8E321A1580CF3000AC0245 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = CE8E32191580CF3000AC0245 /* SVProgressHUD.m */; };
+		CE8E321B1580CF3000AC0245 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = CE8E32191580CF3000AC0245 /* SVProgressHUD.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +56,8 @@
 		CE51D582156EB58E00632943 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		CE51D584156EB58E00632943 /* TeethWhiteSensorTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TeethWhiteSensorTests.h; sourceTree = "<group>"; };
 		CE51D585156EB58E00632943 /* TeethWhiteSensorTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TeethWhiteSensorTests.m; sourceTree = "<group>"; };
+		CE8E32181580CF3000AC0245 /* SVProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressHUD.h; sourceTree = "<group>"; };
+		CE8E32191580CF3000AC0245 /* SVProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressHUD.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,6 +117,7 @@
 		CE51D55D156EB58E00632943 /* TeethWhiteSensor */ = {
 			isa = PBXGroup;
 			children = (
+				CE8E32161580CEEE00AC0245 /* SVProgressHUD */,
 				CE51D566156EB58E00632943 /* AppDelegate.h */,
 				CE51D567156EB58E00632943 /* AppDelegate.m */,
 				CE51D569156EB58E00632943 /* MainStoryboard_iPhone.storyboard */,
@@ -152,6 +157,15 @@
 				CE51D581156EB58E00632943 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		CE8E32161580CEEE00AC0245 /* SVProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				CE8E32181580CF3000AC0245 /* SVProgressHUD.h */,
+				CE8E32191580CF3000AC0245 /* SVProgressHUD.m */,
+			);
+			name = SVProgressHUD;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -264,6 +278,7 @@
 				CE51D564156EB58E00632943 /* main.m in Sources */,
 				CE51D568156EB58E00632943 /* AppDelegate.m in Sources */,
 				CE51D571156EB58E00632943 /* ViewController.m in Sources */,
+				CE8E321A1580CF3000AC0245 /* SVProgressHUD.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -272,6 +287,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE51D586156EB58E00632943 /* TeethWhiteSensorTests.m in Sources */,
+				CE8E321B1580CF3000AC0245 /* SVProgressHUD.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -443,6 +459,7 @@
 				CE51D58B156EB58E00632943 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		CE51D58C156EB58E00632943 /* Build configuration list for PBXNativeTarget "TeethWhiteSensorTests" */ = {
 			isa = XCConfigurationList;
@@ -451,6 +468,7 @@
 				CE51D58E156EB58E00632943 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
