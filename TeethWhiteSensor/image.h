@@ -20,8 +20,10 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 
 #ifndef IMAGE_H
 #define IMAGE_H
+//#import <Foundation/Foundation.h> 
 
-#include <cstring>
+//#include "cstring"
+#ifdef __cplusplus
 
 template <class T>
 class image {
@@ -96,6 +98,6 @@ image<T> *image<T>::copy() const {
   memcpy(im->data, data, w * h * sizeof(T));
   return im;
 }
-
+#endif
 #endif
   

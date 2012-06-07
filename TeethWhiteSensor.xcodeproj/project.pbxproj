@@ -15,7 +15,7 @@
 		CE51D568156EB58E00632943 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CE51D567156EB58E00632943 /* AppDelegate.m */; };
 		CE51D56B156EB58E00632943 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE51D569156EB58E00632943 /* MainStoryboard_iPhone.storyboard */; };
 		CE51D56E156EB58E00632943 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE51D56C156EB58E00632943 /* MainStoryboard_iPad.storyboard */; };
-		CE51D571156EB58E00632943 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE51D570156EB58E00632943 /* ViewController.m */; };
+		CE51D571156EB58E00632943 /* ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = CE51D570156EB58E00632943 /* ViewController.mm */; };
 		CE51D579156EB58E00632943 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE51D578156EB58E00632943 /* SenTestingKit.framework */; };
 		CE51D57A156EB58E00632943 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE51D557156EB58E00632943 /* UIKit.framework */; };
 		CE51D57B156EB58E00632943 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE51D559156EB58E00632943 /* Foundation.framework */; };
@@ -23,6 +23,10 @@
 		CE51D586156EB58E00632943 /* TeethWhiteSensorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CE51D585156EB58E00632943 /* TeethWhiteSensorTests.m */; };
 		CE8E321A1580CF3000AC0245 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = CE8E32191580CF3000AC0245 /* SVProgressHUD.m */; };
 		CE8E321B1580CF3000AC0245 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = CE8E32191580CF3000AC0245 /* SVProgressHUD.m */; };
+		CE8E322B1580E4BE00AC0245 /* COPYING in Resources */ = {isa = PBXBuildFile; fileRef = CE8E321E1580E4BE00AC0245 /* COPYING */; };
+		CE8E322C1580E4BE00AC0245 /* COPYING in Resources */ = {isa = PBXBuildFile; fileRef = CE8E321E1580E4BE00AC0245 /* COPYING */; };
+		CE8E322F1580E4BE00AC0245 /* README in Resources */ = {isa = PBXBuildFile; fileRef = CE8E32271580E4BE00AC0245 /* README */; };
+		CE8E32301580E4BE00AC0245 /* README in Resources */ = {isa = PBXBuildFile; fileRef = CE8E32271580E4BE00AC0245 /* README */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,7 +53,7 @@
 		CE51D56A156EB58E00632943 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
 		CE51D56D156EB58E00632943 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
 		CE51D56F156EB58E00632943 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		CE51D570156EB58E00632943 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		CE51D570156EB58E00632943 /* ViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ViewController.mm; sourceTree = "<group>"; };
 		CE51D577156EB58E00632943 /* TeethWhiteSensorTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TeethWhiteSensorTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE51D578156EB58E00632943 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		CE51D580156EB58E00632943 /* TeethWhiteSensorTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "TeethWhiteSensorTests-Info.plist"; sourceTree = "<group>"; };
@@ -58,6 +62,18 @@
 		CE51D585156EB58E00632943 /* TeethWhiteSensorTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TeethWhiteSensorTests.m; sourceTree = "<group>"; };
 		CE8E32181580CF3000AC0245 /* SVProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressHUD.h; sourceTree = "<group>"; };
 		CE8E32191580CF3000AC0245 /* SVProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressHUD.m; sourceTree = "<group>"; };
+		CE8E321D1580E4BE00AC0245 /* convolve.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = convolve.h; sourceTree = "<group>"; };
+		CE8E321E1580E4BE00AC0245 /* COPYING */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = COPYING; sourceTree = "<group>"; };
+		CE8E321F1580E4BE00AC0245 /* disjoint-set.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "disjoint-set.h"; sourceTree = "<group>"; };
+		CE8E32201580E4BE00AC0245 /* filter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = filter.h; sourceTree = "<group>"; };
+		CE8E32211580E4BE00AC0245 /* image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = image.h; sourceTree = "<group>"; };
+		CE8E32221580E4BE00AC0245 /* imconv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = imconv.h; sourceTree = "<group>"; };
+		CE8E32231580E4BE00AC0245 /* imutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = imutil.h; sourceTree = "<group>"; };
+		CE8E32251580E4BE00AC0245 /* misc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = misc.h; sourceTree = "<group>"; };
+		CE8E32261580E4BE00AC0245 /* pnmfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pnmfile.h; sourceTree = "<group>"; };
+		CE8E32271580E4BE00AC0245 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
+		CE8E32281580E4BE00AC0245 /* segment-graph.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "segment-graph.h"; sourceTree = "<group>"; };
+		CE8E32291580E4BE00AC0245 /* segment-image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "segment-image.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,13 +133,14 @@
 		CE51D55D156EB58E00632943 /* TeethWhiteSensor */ = {
 			isa = PBXGroup;
 			children = (
+				CE8E321C1580E3CE00AC0245 /* segmentation */,
 				CE8E32161580CEEE00AC0245 /* SVProgressHUD */,
 				CE51D566156EB58E00632943 /* AppDelegate.h */,
 				CE51D567156EB58E00632943 /* AppDelegate.m */,
 				CE51D569156EB58E00632943 /* MainStoryboard_iPhone.storyboard */,
 				CE51D56C156EB58E00632943 /* MainStoryboard_iPad.storyboard */,
 				CE51D56F156EB58E00632943 /* ViewController.h */,
-				CE51D570156EB58E00632943 /* ViewController.m */,
+				CE51D570156EB58E00632943 /* ViewController.mm */,
 				CE51D55E156EB58E00632943 /* Supporting Files */,
 			);
 			path = TeethWhiteSensor;
@@ -166,6 +183,25 @@
 				CE8E32191580CF3000AC0245 /* SVProgressHUD.m */,
 			);
 			name = SVProgressHUD;
+			sourceTree = "<group>";
+		};
+		CE8E321C1580E3CE00AC0245 /* segmentation */ = {
+			isa = PBXGroup;
+			children = (
+				CE8E321D1580E4BE00AC0245 /* convolve.h */,
+				CE8E321E1580E4BE00AC0245 /* COPYING */,
+				CE8E321F1580E4BE00AC0245 /* disjoint-set.h */,
+				CE8E32201580E4BE00AC0245 /* filter.h */,
+				CE8E32211580E4BE00AC0245 /* image.h */,
+				CE8E32221580E4BE00AC0245 /* imconv.h */,
+				CE8E32231580E4BE00AC0245 /* imutil.h */,
+				CE8E32251580E4BE00AC0245 /* misc.h */,
+				CE8E32261580E4BE00AC0245 /* pnmfile.h */,
+				CE8E32271580E4BE00AC0245 /* README */,
+				CE8E32281580E4BE00AC0245 /* segment-graph.h */,
+				CE8E32291580E4BE00AC0245 /* segment-image.h */,
+			);
+			name = segmentation;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -241,6 +277,8 @@
 				CE51D562156EB58E00632943 /* InfoPlist.strings in Resources */,
 				CE51D56B156EB58E00632943 /* MainStoryboard_iPhone.storyboard in Resources */,
 				CE51D56E156EB58E00632943 /* MainStoryboard_iPad.storyboard in Resources */,
+				CE8E322B1580E4BE00AC0245 /* COPYING in Resources */,
+				CE8E322F1580E4BE00AC0245 /* README in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -249,6 +287,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE51D583156EB58E00632943 /* InfoPlist.strings in Resources */,
+				CE8E322C1580E4BE00AC0245 /* COPYING in Resources */,
+				CE8E32301580E4BE00AC0245 /* README in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -277,7 +317,7 @@
 			files = (
 				CE51D564156EB58E00632943 /* main.m in Sources */,
 				CE51D568156EB58E00632943 /* AppDelegate.m in Sources */,
-				CE51D571156EB58E00632943 /* ViewController.m in Sources */,
+				CE51D571156EB58E00632943 /* ViewController.mm in Sources */,
 				CE8E321A1580CF3000AC0245 /* SVProgressHUD.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
