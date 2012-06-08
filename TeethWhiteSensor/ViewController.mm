@@ -73,8 +73,6 @@
     size_t h = CGImageGetHeight(inImage);
     CGRect rect = {{0,0},{w,h}}; 
     
-    
-    
     // Draw the image to the bitmap context. Once we draw, the memory 
     // allocated for the context for rendering will then contain the 
     // raw image data in the specified color space.
@@ -85,34 +83,8 @@
     // context.
     unsigned char* data = (unsigned char*)CGBitmapContextGetData (cgctx);
 
-    if (data != NULL)
-    {   
-        printf("W %i", (int)w);
-        printf("H %i", (int)h);
-        
-        for (int j = 0; j < h; j++) {
-            for (int i = 0; i < w; i++) {
-                //offset locates the pixel in the data from x,y.
-                //4 for 4 bytes of data per pixel, w is width of one row of data.
-                int offset = 4*((w*round(j))+round(i));
-                int alpha =  data[offset];
-                int red = data[offset+1];
-                int green = data[offset+2];
-                int blue = data[offset+3];
-                //data[offset] = alpha;
-                //data[offset + 1] = alpha;
-                //printf("%i %i %i ", red, green, blue);
-                
-                // **** You have a pointer to the image data ****
-                
-                // **** Do stuff with the data here ****
-            }
-        }
-        
-    }
     
     image<rgb> *input = new image<rgb>((int)w, (int)h);
-    //memcpy(input->data, data, w * h * sizeof(rgb));
     rgb* dat = input->data;
     for (int j = 0; j < h; j++) {
         for (int i = 0; i < w; i++) {
@@ -125,19 +97,16 @@
             dat[j * w + i] = c;
         }
     }
-    //(rgb *)imPtr(input, 0, 0) -> *data;
     
     float sigma = 0.8;
     float k = 200.0;
-    int min_size = 20000;
+    int min_size = 200;
 		
     int num_ccs; 
     image<rgb> *seg = segment_image(input, sigma, k, min_size, &num_ccs); 
 
     rgb *d = seg->data;
-    printf("width %i", seg->width());
-    printf("height %i", seg->height());
-           //memcpy(data, seg->data, w*h*sizeof(rgb));
+    
     for (int j = 0; j < h; j++) {
         for (int i = 0; i < w; i++) {
             //offset locates the pixel in the data from x,y.
@@ -174,14 +143,14 @@
     if (self.picker == nil) {   
         
         // 1) Show status
-        //[SVProgressHUD showWithStatus:@"Loading picker..."];
+        [SVProgressHUD showWithStatus:@"Loading picker..."];
         
         // 2) Get a concurrent queue form the system
-        //dispatch_queue_t concurrentQueue =
-        //dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+        dispatch_queue_t concurrentQueue =
+        dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
         
         // 3) Load picker in background
-        //dispatch_async(concurrentQueue, ^{
+        dispatch_async(concurrentQueue, ^{
             
             self.picker = [[UIImagePickerController alloc] init];
             self.picker.delegate = self;
@@ -189,12 +158,12 @@
             self.picker.allowsEditing = NO;    
             
             // 4) Present picker in main thread
-            //dispatch_async(dispatch_get_main_queue(), ^{
+            dispatch_async(dispatch_get_main_queue(), ^{
                 [self presentModalViewController:_picker animated:YES];    
-            //    [SVProgressHUD dismiss];
-            //});
+                [SVProgressHUD dismiss];
+            });
             
-        //});        
+        });        
         
     }  else {        
         [self presentModalViewController:_picker animated:YES];    
