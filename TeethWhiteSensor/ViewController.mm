@@ -60,7 +60,6 @@
    
     //NSData *imageData = [NSData dataWithData:UIImagePNGRepresentation(fullImage)];
     CGImageRef inImage = fullImage.CGImage;
-    printf("P3\n");
     CGContextRef cgctx = [self createARGBBitmapContextFromImage:inImage];
     
     if (cgctx == NULL) 
@@ -68,7 +67,7 @@
         // error creating context
         return;
     }
-    printf("960 539\n");
+
     // Get image width, height. We'll use the entire image.
     size_t w = CGImageGetWidth(inImage);
     size_t h = CGImageGetHeight(inImage);
@@ -85,7 +84,7 @@
     // Now we can get a pointer to the image data associated with the bitmap
     // context.
     unsigned char* data = (unsigned char*)CGBitmapContextGetData (cgctx);
-    rgb data2[(int)w * (int)h];
+
     if (data != NULL)
     {   
         printf("W %i", (int)w);
@@ -100,38 +99,58 @@
                 int red = data[offset+1];
                 int green = data[offset+2];
                 int blue = data[offset+3];
-                data[offset] = alpha;
-                data[offset + 1] = alpha;
+                //data[offset] = alpha;
+                //data[offset + 1] = alpha;
                 //printf("%i %i %i ", red, green, blue);
-                rgb color = {red, green, blue};
-                data2[(int)(w*round(j)+round(i))] = color;
+                
                 // **** You have a pointer to the image data ****
                 
                 // **** Do stuff with the data here ****
             }
-            printf("\n");
         }
         
     }
     
-    
-    
     image<rgb> *input = new image<rgb>((int)w, (int)h);
-    memcpy(input->data, data, w * h * sizeof(rgb));
+    //memcpy(input->data, data, w * h * sizeof(rgb));
+    rgb* dat = input->data;
+    for (int j = 0; j < h; j++) {
+        for (int i = 0; i < w; i++) {
+            int offset = 4*((w*round(j))+round(i));
+            int alpha =  data[offset];
+            int red = data[offset+1];
+            int green = data[offset+2];
+            int blue = data[offset+3];
+            rgb c = {red,green,blue};
+            dat[j * w + i] = c;
+        }
+    }
     //(rgb *)imPtr(input, 0, 0) -> *data;
     
     float sigma = 0.8;
     float k = 200.0;
-    int min_size = 200;
-	
-    //printf("loading input image.\n");
-    //image<rgb> *input = loadPPM(argv[4]);
-	
-    printf("processing\n");
+    int min_size = 20000;
+		
     int num_ccs; 
     image<rgb> *seg = segment_image(input, sigma, k, min_size, &num_ccs); 
-    //savePPM(seg, argv[5]);
-    
+
+    rgb *d = seg->data;
+    printf("width %i", seg->width());
+    printf("height %i", seg->height());
+           //memcpy(data, seg->data, w*h*sizeof(rgb));
+    for (int j = 0; j < h; j++) {
+        for (int i = 0; i < w; i++) {
+            //offset locates the pixel in the data from x,y.
+            //4 for 4 bytes of data per pixel, w is width of one row of data.
+            int offset = 4*((w*round(j))+round(i));
+            rgb col = d[(int)(w*round(j)+round(i))];
+            data[offset + 1] = col.r;
+            data[offset + 2] = col.g;
+            data[offset + 3] = col.b;
+            
+        }
+    }
+        
     printf("got %d components\n", num_ccs);
     
     // When finished, release the context
@@ -139,9 +158,9 @@
     // Free image data memory for the context
     if (data)
     {
-        free(data);
+        //free(data);
     }
-    
+    fullImage = [self createUIImage : data : inImage];
     self.imageView.image = fullImage;
     
 }
@@ -241,6 +260,34 @@
 	CGColorSpaceRelease( colorSpace );
     
 	return context;
+}
+
+-  (UIImage*) createUIImage:(unsigned char*) rawData:(CGImageRef) imageRef {
+    
+	size_t pixelsWide = CGImageGetWidth(imageRef);
+	size_t pixelsHigh = CGImageGetHeight(imageRef);
+    
+	// Declare the number of bytes per row. Each pixel in the bitmap in this
+	// example is represented by 4 bytes; 8 bits each of red, green, blue, and
+	// alpha.
+	int bitmapBytesPerRow   = (pixelsWide * 4);
+	int bitmapByteCount     = (bitmapBytesPerRow * pixelsHigh);
+    
+    CGContextRef ctx = CGBitmapContextCreate(rawData,
+                                CGImageGetWidth( imageRef ),
+                                CGImageGetHeight( imageRef ),
+                                8,
+                                bitmapBytesPerRow,
+                                CGImageGetColorSpace( imageRef ),
+                                kCGImageAlphaPremultipliedFirst ); 
+    
+    imageRef = CGBitmapContextCreateImage (ctx);
+    UIImage* rawImage = [UIImage imageWithCGImage:imageRef];  
+    
+    CGContextRelease(ctx);  
+        
+    free(rawData);
+    return rawImage;
 }
 
 
