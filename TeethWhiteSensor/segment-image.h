@@ -20,10 +20,26 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 #define SEGMENT_IMAGE
 
 #include <cstdlib>
+#include <map>
 #include "image.h"
 #include "misc.h"
 #include "filter.h"
 #include "segment-graph.h"
+
+struct rgbb
+{
+    int r;
+    int g; 
+    int b;
+    int x;
+    int y;
+} ;
+
+typedef struct
+{
+    image<rgb> *image;
+    std::map<int, rgbb> averages;
+} SegmentResult;
 
 // random color
 rgb random_rgb(){ 
@@ -56,7 +72,7 @@ static inline float diff(image<float> *r, image<float> *g, image<float> *b,
  * min_size: minimum component size (enforced by post-processing stage).
  * num_ccs: number of connected components in the segmentation.
  */
-image<rgb> *segment_image(image<rgb> *im, float sigma, float c, int min_size,
+SegmentResult segment_image(image<rgb> *im, float sigma, float c, int min_size,
 			  int *num_ccs) {
   int width = im->width();
   int height = im->height();
@@ -137,18 +153,64 @@ image<rgb> *segment_image(image<rgb> *im, float sigma, float c, int min_size,
   rgb *colors = new rgb[width*height];
   for (int i = 0; i < width*height; i++)
     colors[i] = random_rgb();
+    
+    printf("YYY + %i", num_ccs[0]);
+    NSMutableDictionary *sumColorsR = [NSMutableDictionary dictionaryWithCapacity:num_ccs[0]]; 
+    NSMutableDictionary *sumColorsG = [NSMutableDictionary dictionaryWithCapacity:num_ccs[0]]; 
+    NSMutableDictionary *sumColorsB = [NSMutableDictionary dictionaryWithCapacity:num_ccs[0]]; 
+
+    
+  for (int y = 0; y < height; y++) {
+      for (int x = 0; x < width; x++) {
+          int comp = u->find(y * width + x);
+          NSNumber *compNumber = [NSNumber numberWithInt:comp];
+          rgb newColor = imRef(im, x , y);
+          int sumColorR = [[sumColorsR objectForKey:compNumber] intValue];
+          int sumColorG = [[sumColorsG objectForKey:compNumber] intValue];
+          int sumColorB = [[sumColorsB objectForKey:compNumber] intValue];
+
+          sumColorR = sumColorR + newColor.r;
+          sumColorG = sumColorG + newColor.g;
+          sumColorB = sumColorB + newColor.b;
+
+          [sumColorsR setObject: [NSNumber numberWithInt:sumColorR] forKey: compNumber];
+          [sumColorsG setObject: [NSNumber numberWithInt:sumColorG] forKey: compNumber];
+          [sumColorsB setObject: [NSNumber numberWithInt:sumColorB] forKey: compNumber];
+
+      }
+  }
+  
+    std::map<int, rgbb> test;
+    
   
   for (int y = 0; y < height; y++) {
     for (int x = 0; x < width; x++) {
       int comp = u->find(y * width + x);
-      imRef(output, x, y) = colors[comp];
+        int size = u->size(comp); 
+        NSNumber *key = [NSNumber numberWithInt:(comp)];
+        NSNumber *numR = [sumColorsR objectForKey: key];
+        NSNumber *numG = [sumColorsG objectForKey: key];
+        NSNumber *numB = [sumColorsB objectForKey: key];
+        int avgR = [numR intValue] / size;
+        int avgG = [numG intValue] / size;
+        int avgB = [numB intValue] / size;
+        int dist = abs(avgR - avgG);
+        if ( dist < 40 && avgB > 100) {
+            imRef(output, x, y) = imRef(im,x,y); 
+            rgbb a = {avgR,avgG, avgB, x, y};
+            test.insert (std::pair<int,rgbb>(comp, a) );                     
+        }
+        else {
+            imRef(output, x, y) = colors[comp];
+        }
     }
   }  
 
   delete [] colors;  
   delete u;
 
-  return output;
+    SegmentResult res = {output, test};
+    return res;
 }
 
 #endif

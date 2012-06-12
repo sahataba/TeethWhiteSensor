@@ -55,7 +55,7 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     [self dismissModalViewControllerAnimated:YES];
     
-    UIImage *fullImage = (UIImage *) [info objectForKey:UIImagePickerControllerOriginalImage]; 
+    UIImage *fullImage = (UIImage *) [info objectForKey:UIImagePickerControllerEditedImage]; 
     //UIImage *thumbImage = [fullImage imageByScalingAndCroppingForSize:CGSizeMake(44, 44)];
    
     //NSData *imageData = [NSData dataWithData:UIImagePNGRepresentation(fullImage)];
@@ -77,7 +77,6 @@
     // allocated for the context for rendering will then contain the 
     // raw image data in the specified color space.
     CGContextDrawImage(cgctx, rect, inImage); 
-    printf("255\n");
     
     // Now we can get a pointer to the image data associated with the bitmap
     // context.
@@ -98,12 +97,14 @@
         }
     }
     
-    float sigma = 0.8;
-    float k = 200.0;
-    int min_size = 200;
+    float sigma = 0.5;
+    float k = 400;
+    int min_size = 20;
 		
     int num_ccs; 
-    image<rgb> *seg = segment_image(input, sigma, k, min_size, &num_ccs); 
+    SegmentResult res = segment_image(input, sigma, k, min_size, &num_ccs); 
+    image<rgb> *seg = res.image;
+    std::map<int, rgbb> averages = res.averages;
 
     rgb *d = seg->data;
     
@@ -129,8 +130,30 @@
     {
         //free(data);
     }
+    
     fullImage = [self createUIImage : data : inImage];
-    self.imageView.image = fullImage;
+    
+    
+    NSSet *set = [NSSet setWithObjects:@"0",nil];
+
+    NSString *myWatermarkText = @"Watermark";
+    UIImage *watermarkedImage = nil;
+    
+    
+    UIGraphicsBeginImageContext(fullImage.size);
+    [fullImage drawAtPoint: CGPointZero];
+    
+    std::map<int,rgbb>::iterator it;
+    for ( it=averages.begin() ; it != averages.end(); it++ ){
+        rgbb r = (*it).second;
+        myWatermarkText = [NSString stringWithFormat : @"RGB %i %i %i", r.r,r.g,r.b ];
+        [myWatermarkText drawAtPoint: CGPointMake(r.x, r.y) withFont: [UIFont systemFontOfSize: 6]];
+    }
+     
+    watermarkedImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    self.imageView.image = watermarkedImage;
     
 }
 
@@ -155,7 +178,7 @@
             self.picker = [[UIImagePickerController alloc] init];
             self.picker.delegate = self;
             self.picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-            self.picker.allowsEditing = NO;    
+            self.picker.allowsEditing = YES;    
             
             // 4) Present picker in main thread
             dispatch_async(dispatch_get_main_queue(), ^{
