@@ -194,14 +194,19 @@ SegmentResult segment_image(image<rgb> *im, float sigma, float c, int min_size,
         int avgR = [numR intValue] / size;
         int avgG = [numG intValue] / size;
         int avgB = [numB intValue] / size;
-        int dist = abs(avgR - avgG);
-        if ( dist < 40 && avgB > 100) {
-            imRef(output, x, y) = imRef(im,x,y); 
+        int distRG = abs(avgR - avgG);
+        int distGB = abs(avgG - avgB);
+        rgb black = {0,0,0};
+        //if ( distRG < 40 && distGB < 100 && size > 200 && size < 5000) {
+        if ( avgR > 90 && avgG > 90 && avgB > 90 && distRG < 30) {
+            imRef(output, x, y) = imRef(im,x,y);
+            //imRef(output, x, y) = colors[comp];
+
             rgbb a = {avgR,avgG, avgB, x, y};
             test.insert (std::pair<int,rgbb>(comp, a) );                     
         }
         else {
-            imRef(output, x, y) = colors[comp];
+            imRef(output, x, y) = black; colors[comp];
         }
     }
   }  

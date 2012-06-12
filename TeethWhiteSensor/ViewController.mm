@@ -97,9 +97,9 @@
         }
     }
     
-    float sigma = 0.5;
-    float k = 400;
-    int min_size = 20;
+    float sigma = 0.8;
+    float k = 100;
+    int min_size = 50;
 		
     int num_ccs; 
     SegmentResult res = segment_image(input, sigma, k, min_size, &num_ccs); 
@@ -147,7 +147,7 @@
     for ( it=averages.begin() ; it != averages.end(); it++ ){
         rgbb r = (*it).second;
         myWatermarkText = [NSString stringWithFormat : @"RGB %i %i %i", r.r,r.g,r.b ];
-        [myWatermarkText drawAtPoint: CGPointMake(r.x, r.y) withFont: [UIFont systemFontOfSize: 6]];
+        [myWatermarkText drawAtPoint: CGPointMake(r.x, r.y) withFont: [UIFont systemFontOfSize: 8]];
     }
      
     watermarkedImage = UIGraphicsGetImageFromCurrentImageContext();
