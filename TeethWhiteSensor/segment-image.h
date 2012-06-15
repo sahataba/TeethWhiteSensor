@@ -155,27 +155,31 @@ SegmentResult segment_image(image<rgb> *im, float sigma, float c, int min_size,
     colors[i] = random_rgb();
     
     printf("YYY + %i", num_ccs[0]);
-    NSMutableDictionary *sumColorsR = [NSMutableDictionary dictionaryWithCapacity:num_ccs[0]]; 
-    NSMutableDictionary *sumColorsG = [NSMutableDictionary dictionaryWithCapacity:num_ccs[0]]; 
-    NSMutableDictionary *sumColorsB = [NSMutableDictionary dictionaryWithCapacity:num_ccs[0]]; 
-
+    
+    std::map<int, rgbb> sumColors;
     
   for (int y = 0; y < height; y++) {
       for (int x = 0; x < width; x++) {
           int comp = u->find(y * width + x);
           NSNumber *compNumber = [NSNumber numberWithInt:comp];
           rgb newColor = imRef(im, x , y);
-          int sumColorR = [[sumColorsR objectForKey:compNumber] intValue];
-          int sumColorG = [[sumColorsG objectForKey:compNumber] intValue];
-          int sumColorB = [[sumColorsB objectForKey:compNumber] intValue];
 
-          sumColorR = sumColorR + newColor.r;
-          sumColorG = sumColorG + newColor.g;
-          sumColorB = sumColorB + newColor.b;
-
-          [sumColorsR setObject: [NSNumber numberWithInt:sumColorR] forKey: compNumber];
-          [sumColorsG setObject: [NSNumber numberWithInt:sumColorG] forKey: compNumber];
-          [sumColorsB setObject: [NSNumber numberWithInt:sumColorB] forKey: compNumber];
+          std::map<int,rgbb>::iterator i = sumColors.find (comp);
+          rgbb color;
+          if (i == sumColors.end ()) {
+              color.r = 0;
+              color.g = 0;
+              color.b = 0;
+          }
+          else
+          {
+              color = i->second;
+              color.r = color.r + (int)newColor.r;
+              color.g = color.g + (int)newColor.g;
+              color.b = color.b + (int)newColor.b;
+          }
+          sumColors.erase(comp);
+          sumColors.insert(std::pair<int,rgbb>(comp, color));
 
       }
   }
@@ -187,13 +191,20 @@ SegmentResult segment_image(image<rgb> *im, float sigma, float c, int min_size,
     for (int x = 0; x < width; x++) {
       int comp = u->find(y * width + x);
         int size = u->size(comp); 
-        NSNumber *key = [NSNumber numberWithInt:(comp)];
-        NSNumber *numR = [sumColorsR objectForKey: key];
-        NSNumber *numG = [sumColorsG objectForKey: key];
-        NSNumber *numB = [sumColorsB objectForKey: key];
-        int avgR = [numR intValue] / size;
-        int avgG = [numG intValue] / size;
-        int avgB = [numB intValue] / size;
+        std::map<int,rgbb>::iterator i = sumColors.find (comp);
+        
+        rgbb color;
+        if (i == sumColors.end ()) {
+        }
+        else
+        {
+            color = i->second;
+        }
+        int avgR = color.r / size;
+        int avgG = color.g / size;
+        int avgB = color.b / size;
+
+        
         int distRG = abs(avgR - avgG);
         int distGB = abs(avgG - avgB);
         rgb black = {0,0,0};

@@ -98,7 +98,7 @@
     }
     
     float sigma = 0.8;
-    float k = 100;
+    float k = 300;
     int min_size = 50;
 		
     int num_ccs; 
@@ -146,8 +146,8 @@
     std::map<int,rgbb>::iterator it;
     for ( it=averages.begin() ; it != averages.end(); it++ ){
         rgbb r = (*it).second;
-        myWatermarkText = [NSString stringWithFormat : @"RGB %i %i %i", r.r,r.g,r.b ];
-        [myWatermarkText drawAtPoint: CGPointMake(r.x, r.y) withFont: [UIFont systemFontOfSize: 8]];
+        myWatermarkText = [NSString stringWithFormat : @"[%i %i %i]", r.r,r.g,r.b ];
+        [myWatermarkText drawAtPoint: CGPointMake(r.x, r.y) withFont: [UIFont systemFontOfSize: 12]];
     }
      
     watermarkedImage = UIGraphicsGetImageFromCurrentImageContext();
