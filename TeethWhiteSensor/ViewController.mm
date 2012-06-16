@@ -133,9 +133,6 @@
     
     fullImage = [self createUIImage : data : inImage];
     
-    
-    NSSet *set = [NSSet setWithObjects:@"0",nil];
-
     NSString *myWatermarkText = @"Watermark";
     UIImage *watermarkedImage = nil;
     

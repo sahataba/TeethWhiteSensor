@@ -161,7 +161,6 @@ SegmentResult segment_image(image<rgb> *im, float sigma, float c, int min_size,
   for (int y = 0; y < height; y++) {
       for (int x = 0; x < width; x++) {
           int comp = u->find(y * width + x);
-          NSNumber *compNumber = [NSNumber numberWithInt:comp];
           rgb newColor = imRef(im, x , y);
 
           std::map<int,rgbb>::iterator i = sumColors.find (comp);
@@ -170,17 +169,15 @@ SegmentResult segment_image(image<rgb> *im, float sigma, float c, int min_size,
               color.r = 0;
               color.g = 0;
               color.b = 0;
+              sumColors.insert(std::pair<int,rgbb>(comp, color));
           }
           else
           {
               color = i->second;
-              color.r = color.r + (int)newColor.r;
-              color.g = color.g + (int)newColor.g;
-              color.b = color.b + (int)newColor.b;
+              i->second.r = color.r + (int)newColor.r;
+              i->second.g = color.g + (int)newColor.g;
+              i->second.b = color.b + (int)newColor.b;
           }
-          sumColors.erase(comp);
-          sumColors.insert(std::pair<int,rgbb>(comp, color));
-
       }
   }
   
@@ -207,7 +204,7 @@ SegmentResult segment_image(image<rgb> *im, float sigma, float c, int min_size,
         
         int distRG = abs(avgR - avgG);
         int distGB = abs(avgG - avgB);
-        rgb black = {0,0,0};
+
         //if ( distRG < 40 && distGB < 100 && size > 200 && size < 5000) {
         if ( avgR > 90 && avgG > 90 && avgB > 90 && distRG < 30) {
             imRef(output, x, y) = imRef(im,x,y);
@@ -217,7 +214,7 @@ SegmentResult segment_image(image<rgb> *im, float sigma, float c, int min_size,
             test.insert (std::pair<int,rgbb>(comp, a) );                     
         }
         else {
-            imRef(output, x, y) = black; colors[comp];
+            imRef(output, x, y) = colors[comp];
         }
     }
   }  
