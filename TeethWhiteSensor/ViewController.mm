@@ -98,8 +98,8 @@
     }
     
     float sigma = 0.8;
-    float k = 300;
-    int min_size = 50;
+    float k =200;
+    int min_size = 100;
 		
     int num_ccs; 
     SegmentResult res = segment_image(input, sigma, k, min_size, &num_ccs); 
@@ -146,7 +146,10 @@
         myWatermarkText = [NSString stringWithFormat : @"[%i %i %i]", r.r,r.g,r.b ];
         [myWatermarkText drawAtPoint: CGPointMake(r.x, r.y) withFont: [UIFont systemFontOfSize: 12]];
     }
-     
+    
+    myWatermarkText = [NSString stringWithFormat : @"[%i %i %i]", res.totalAvg.r,res.totalAvg.g,res.totalAvg.b ];
+    [myWatermarkText drawAtPoint: CGPointMake(0, 0) withFont: [UIFont systemFontOfSize: 18]];
+    
     watermarkedImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     

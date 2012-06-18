@@ -39,6 +39,7 @@ typedef struct
 {
     image<rgb> *image;
     std::map<int, rgbb> averages;
+    rgbb totalAvg; 
 } SegmentResult;
 
 // random color
@@ -180,6 +181,25 @@ SegmentResult segment_image(image<rgb> *im, float sigma, float c, int min_size,
           }
       }
   }
+    
+    
+    std::map<int,rgbb>::iterator tot;
+    
+    int totalR = 0;
+    int totalG = 0;
+    int totalB = 0;
+    int totalSize = 0;
+    
+    for ( tot=sumColors.begin() ; tot != sumColors.end(); tot++ ){
+        rgbb r = tot->second;
+        int comp = tot->first;
+        int size = u -> size(comp);
+        
+        totalR = totalR + r.r;
+        totalG = totalG + r.g;
+        totalB = totalB + r.b;
+        totalSize = totalSize + size;
+    }
   
     std::map<int, rgbb> test;
     
@@ -222,7 +242,9 @@ SegmentResult segment_image(image<rgb> *im, float sigma, float c, int min_size,
   delete [] colors;  
   delete u;
 
-    SegmentResult res = {output, test};
+    rgbb a = {totalR/totalSize,totalG/totalSize,totalB/totalSize, 0 , 0};
+    
+    SegmentResult res = {output, test, a};
     return res;
 }
 
