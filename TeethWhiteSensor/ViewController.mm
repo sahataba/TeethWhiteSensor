@@ -282,5 +282,10 @@
     return rawImage;
 }
 
+- (IBAction)done:(id)sender {
+        [[self presentingViewController] dismissModalViewControllerAnimated:YES];
+    /*
+        [self.delegate askerViewController:self didAskQuestion:self.question andGotAnswer:self.answer];*/
+}
 
 @end
