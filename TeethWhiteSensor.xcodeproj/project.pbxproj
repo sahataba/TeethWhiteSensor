@@ -27,6 +27,9 @@
 		CE8E322C1580E4BE00AC0245 /* COPYING in Resources */ = {isa = PBXBuildFile; fileRef = CE8E321E1580E4BE00AC0245 /* COPYING */; };
 		CE8E322F1580E4BE00AC0245 /* README in Resources */ = {isa = PBXBuildFile; fileRef = CE8E32271580E4BE00AC0245 /* README */; };
 		CE8E32301580E4BE00AC0245 /* README in Resources */ = {isa = PBXBuildFile; fileRef = CE8E32271580E4BE00AC0245 /* README */; };
+		CEE7F70D158F3F6A002DBB4B /* TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEE7F70B158F3F6A002DBB4B /* TableViewController.m */; };
+		CEE7F71A158F4BB5002DBB4B /* RGBMark.m in Sources */ = {isa = PBXBuildFile; fileRef = CEE7F719158F4BB5002DBB4B /* RGBMark.m */; };
+		CEE7F71D158F5230002DBB4B /* RGBMarkDataController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEE7F71C158F5230002DBB4B /* RGBMarkDataController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +77,12 @@
 		CE8E32271580E4BE00AC0245 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		CE8E32281580E4BE00AC0245 /* segment-graph.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "segment-graph.h"; sourceTree = "<group>"; };
 		CE8E32291580E4BE00AC0245 /* segment-image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "segment-image.h"; sourceTree = "<group>"; };
+		CEE7F70A158F3F6A002DBB4B /* TableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableViewController.h; sourceTree = "<group>"; };
+		CEE7F70B158F3F6A002DBB4B /* TableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableViewController.m; sourceTree = "<group>"; };
+		CEE7F718158F4973002DBB4B /* RGBMark.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RGBMark.h; sourceTree = "<group>"; };
+		CEE7F719158F4BB5002DBB4B /* RGBMark.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGBMark.m; sourceTree = "<group>"; };
+		CEE7F71B158F5230002DBB4B /* RGBMarkDataController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RGBMarkDataController.h; sourceTree = "<group>"; };
+		CEE7F71C158F5230002DBB4B /* RGBMarkDataController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGBMarkDataController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +112,12 @@
 		CE51D548156EB58E00632943 = {
 			isa = PBXGroup;
 			children = (
+				CEE7F718158F4973002DBB4B /* RGBMark.h */,
+				CEE7F71B158F5230002DBB4B /* RGBMarkDataController.h */,
+				CEE7F71C158F5230002DBB4B /* RGBMarkDataController.m */,
+				CEE7F719158F4BB5002DBB4B /* RGBMark.m */,
+				CEE7F70B158F3F6A002DBB4B /* TableViewController.m */,
+				CEE7F70A158F3F6A002DBB4B /* TableViewController.h */,
 				CE51D55D156EB58E00632943 /* TeethWhiteSensor */,
 				CE51D57E156EB58E00632943 /* TeethWhiteSensorTests */,
 				CE51D556156EB58E00632943 /* Frameworks */,
@@ -319,6 +334,9 @@
 				CE51D568156EB58E00632943 /* AppDelegate.m in Sources */,
 				CE51D571156EB58E00632943 /* ViewController.mm in Sources */,
 				CE8E321A1580CF3000AC0245 /* SVProgressHUD.m in Sources */,
+				CEE7F70D158F3F6A002DBB4B /* TableViewController.m in Sources */,
+				CEE7F71A158F4BB5002DBB4B /* RGBMark.m in Sources */,
+				CEE7F71D158F5230002DBB4B /* RGBMarkDataController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -49,4 +49,9 @@
     [self.rgbMarkDataList addObject:mark];
 }
 
+- (void)removeRGBMarkAtIndex:(NSUInteger)theIndex {
+    [self.rgbMarkDataList removeObjectAtIndex:theIndex];
+}
+
+
 @end
