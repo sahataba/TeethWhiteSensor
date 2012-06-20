@@ -78,7 +78,7 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];        
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];        
     }
     
     static NSDateFormatter *formatter = nil;
@@ -91,8 +91,46 @@
     NSString *mark = [NSString stringWithFormat : @"[%i %i %i]", markAtIndex.r,markAtIndex.g,markAtIndex.b ];
     [[cell textLabel] setText:mark];
     [[cell detailTextLabel] setText: [formatter stringFromDate:(NSDate *)markAtIndex.date]];
-
+    
+    UIImageView *image = [cell imageView];
+    UIImage *img = [self imageWithColor:[UIColor colorWithRed:markAtIndex.r/255.0 green:markAtIndex.g/255.0 blue:markAtIndex.b/255.0 alpha:1.0]];
+    image.image = img;
+    
     return cell;
+}
+
+- (UIImage *)imageWithColor:(UIColor *)color {
+    CGRect rect = CGRectMake(0.0f, 0.0f, 20.0f, 20.0f);
+    UIGraphicsBeginImageContext(rect.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    CGContextSetFillColorWithColor(context, [color CGColor]);
+    CGContextFillRect(context, rect);
+    
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return image;
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    /*
+    
+    UIImageView *thumbnail = (UIImageView *)[cell viewWithTag:1];
+    thumbnail.backgroundColor = [UIColor grayColor];
+    
+    RGBMark *mark = [self.dataController objectInListAtIndex:indexPath.row];
+    
+    CGFloat newComponents[4] = {mark.r/255.0,mark.g/255.0,mark.b/255.0,0.5};
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+	CGColorRef newColor = CGColorCreate(colorSpace, newComponents);
+	CGColorSpaceRelease(colorSpace);
+    
+	UIColor *retColor = [UIColor colorWithCGColor:newColor];
+	CGColorRelease(newColor);
+    
+    cell.imageView.backgroundColor = retColor;
+    cell.backgroundColor = [UIColor colorWithRed:mark.r/255.0 green: mark.g/255.0 blue: mark.b/255.0 alpha: 1.0]; */
 }
 
 
