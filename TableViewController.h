@@ -8,8 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "TableViewController.h"
+#include "ViewController.h"
+
 @class RGBMarkDataController;
-@interface TableViewController : UITableViewController
+@interface TableViewController : UITableViewController<ViewControllerDelegate>
 
 @property (strong, nonatomic) RGBMarkDataController *dataController;
 

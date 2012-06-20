@@ -15,7 +15,7 @@
 
 - (NSUInteger)countOfList;
 - (RGBMark *)objectInListAtIndex:(NSUInteger)theIndex;
-- (void)addRGBMarkWithDate:(NSDate *)date r:(int *)r g:(int *)g b:(int *)b;
+- (void)addRGBMarkWithDate:(NSDate *)date r:(int)r g:(int)g b:(int)b;
 - (void)removeRGBMarkAtIndex:(NSUInteger)theIndex;
 
 @end

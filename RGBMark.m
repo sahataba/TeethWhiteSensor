@@ -12,7 +12,7 @@
 
 @synthesize r = _r, g = _g, b =_b, date = _date;
  
-- (id)initWithDate:(NSDate *)date r:(int *)r g:(int *)g b:(int *)b
+- (id)initWithDate:(NSDate *)date r:(int)r g:(int)g b:(int)b
 {
     self = [super init];
     if (self) {

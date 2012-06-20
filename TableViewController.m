@@ -9,6 +9,7 @@
 #import "TableViewController.h"
 #import "RGBMarkDataController.h"
 #import "ViewController.h"
+@class RGBMark;
 
 @interface TableViewController ()
 
@@ -145,6 +146,18 @@
      */
 }
 
+#pragma mark - ViewControllerDelegate
+
+- (void)didCancel:(ViewController *)controller
+{
+	//[self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)didSave:(RGBMark *)mark {
+    [self.dataController addRGBMarkWithDate:mark.date r:mark.r g:mark.g b:mark.b];
+    [self.tableView reloadData];
+}
+
 #pragma mark - custom actions
 - (IBAction)addAction:(id)sender
 {
@@ -159,6 +172,10 @@
 {
     if ([[segue identifier] isEqualToString:@"next"]) {
         //[[segue destinationViewController] setDetailItem:object];
+    
+        ViewController *asker = (ViewController *) segue.destinationViewController;
+        asker.delegate = self;
     }
+
 }
 @end

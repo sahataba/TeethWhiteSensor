@@ -24,6 +24,8 @@
 @synthesize picker = _picker;
 @synthesize takePhoto = _takePhoto;
 @synthesize imageView = _imageView;
+@synthesize delegate;
+@synthesize mark;
 
 - (void)viewDidLoad
 {
@@ -154,7 +156,8 @@
     UIGraphicsEndImageContext();
     
     self.imageView.image = watermarkedImage;
-    
+    RGBMark *tmp = [[RGBMark alloc] initWithDate:[NSDate date] r:res.totalAvg.r g:res.totalAvg.g b:res.totalAvg.b];
+    mark = tmp;
 }
 
 #pragma Button actions
@@ -283,9 +286,9 @@
 }
 
 - (IBAction)done:(id)sender {
-        [[self presentingViewController] dismissModalViewControllerAnimated:YES];
-    /*
-        [self.delegate askerViewController:self didAskQuestion:self.question andGotAnswer:self.answer];*/
+    [[self presentingViewController] dismissModalViewControllerAnimated:YES];
+    printf("RRRR %i", self.mark.r);
+    [self.delegate didSave:self.mark];
 }
 
 @end

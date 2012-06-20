@@ -41,7 +41,7 @@
     return [self.rgbMarkDataList objectAtIndex:theIndex];
 }
 
-- (void)addRGBMarkWithDate:(NSDate *)date r:(int *)r g:(int *)g b:(int *)b {
+- (void)addRGBMarkWithDate:(NSDate *)date r:(int)r g:(int)g b:(int)b {
     RGBMark *mark;
     
     mark = [[RGBMark alloc] initWithDate:date r:r g:g b:b];
