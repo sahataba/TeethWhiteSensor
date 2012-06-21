@@ -182,25 +182,6 @@ SegmentResult segment_image(image<rgb> *im, float sigma, float c, int min_size,
       }
   }
     
-    
-    std::map<int,rgbb>::iterator tot;
-    
-    int totalR = 0;
-    int totalG = 0;
-    int totalB = 0;
-    int totalSize = 0;
-    
-    for ( tot=sumColors.begin() ; tot != sumColors.end(); tot++ ){
-        rgbb r = tot->second;
-        int comp = tot->first;
-        int size = u -> size(comp);
-        
-        totalR = totalR + r.r;
-        totalG = totalG + r.g;
-        totalB = totalB + r.b;
-        totalSize = totalSize + size;
-    }
-  
     std::map<int, rgbb> test;
     
   
@@ -238,6 +219,25 @@ SegmentResult segment_image(image<rgb> *im, float sigma, float c, int min_size,
         }
     }
   }  
+    
+    std::map<int,rgbb>::iterator tot;
+    
+    int totalR = 0;
+    int totalG = 0;
+    int totalB = 0;
+    int totalSize = 0;
+    
+    for ( tot=sumColors.begin() ; tot != sumColors.end(); tot++ ){
+        rgbb r = tot->second;
+        int comp = tot->first;
+        int size = u -> size(comp);
+        if (test.count(comp) > 0 ) {
+            totalR = totalR + r.r;
+            totalG = totalG + r.g;
+            totalB = totalB + r.b;
+            totalSize = totalSize + size;
+        }
+    }
 
   delete [] colors;  
   delete u;
