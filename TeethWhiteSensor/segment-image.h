@@ -35,12 +35,101 @@ struct rgbb
     int y;
 } ;
 
+struct hsl 
+{
+    float h;
+    float s;
+    float l;
+};
+
 typedef struct
 {
     image<rgb> *image;
     std::map<int, rgbb> averages;
     rgbb totalAvg; 
 } SegmentResult;
+
+static inline hsl RGBToHSL(rgbb rgb) {
+	float mincolor = fminf(fminf(rgb.r, rgb.g), rgb.b);
+	float maxcolor = fmaxf(fmaxf(rgb.r, rgb.g), rgb.b);
+    hsl hsl;
+    
+	hsl.h = 0;
+	hsl.s = 0;
+	hsl.l = (maxcolor + mincolor)/2;
+    
+	if (maxcolor == mincolor)
+		return hsl;
+    
+	if (hsl.l < 0.5)
+		hsl.s = (maxcolor - mincolor)/(maxcolor + mincolor);
+	else
+		hsl.s = (maxcolor - mincolor)/(2.0 - maxcolor - mincolor);
+    
+	if (rgb.r == maxcolor)
+		hsl.h = (rgb.g - rgb.b)/(maxcolor - mincolor);
+	else if (rgb.g == maxcolor)
+		hsl.h = 2.0 + (rgb.b - rgb.r)/(maxcolor - mincolor);
+	else
+		hsl.h = 4.0 + (rgb.r - rgb.g)/(maxcolor - mincolor);
+    
+	hsl.h /= 6;
+    return hsl;
+}
+
+static inline rgbb HSLToRGB(hsl hsl) {
+    rgbb rgb;
+	if (hsl.s == 0) {
+		rgb.r = rgb.g = rgb.b = hsl.l;
+		return rgb;
+	}
+    
+	float temp2 = 0;
+    
+	if (hsl.l < 0.5)
+		temp2 = hsl.l*(1 + hsl.s);
+	else
+		temp2 = hsl.l+hsl.s-hsl.l*hsl.s;
+    
+	float temp1 = 2*hsl.l - temp2;
+    
+	float temp[3];
+	temp[0] = hsl.h + 1/3.0;
+	temp[1] = hsl.h;
+	temp[2] = hsl.h - 1/3.0;
+    
+	for (int i = 0; i < 3; i++) {
+		float temp3 = temp[i];
+		if (temp3 < 0)
+			temp3 += 1.0;
+		else if (temp3 > 1)
+			temp3 -= 1.0;
+        
+		float color = 0;
+		if (6*temp3 < 1)
+			color = temp1+(temp2-temp1)*6*temp3;
+		else if (2*temp3 < 1)
+			color = temp2;
+		else if (3*temp3 < 2)
+			color = temp1+(temp2 - temp1)*(4 - temp3*6);
+		else
+			color = temp1;
+        
+		switch (i) {
+			case 0:
+				rgb.r = color;
+				break;
+			case 1:
+				rgb.g = color;
+				break;
+			case 2:
+				rgb.b = color;
+				break;
+		}
+	}
+    
+    return rgb;
+}
 
 // random color
 rgb random_rgb(){ 
@@ -157,31 +246,33 @@ SegmentResult segment_image(image<rgb> *im, float sigma, float c, int min_size,
     
     printf("YYY + %i", num_ccs[0]);
     
-    std::map<int, rgbb> sumColors;
+    std::map<int, hsl> sumColors;
     
   for (int y = 0; y < height; y++) {
       for (int x = 0; x < width; x++) {
           int comp = u->find(y * width + x);
-          rgb newColor = imRef(im, x , y);
+          rgb newc = imRef(im, x , y);
+          rgbb newcc = {(int)newc.r, (int)newc.g, (int)newc.b, 0, 0};
+          hsl newColor = RGBToHSL(newcc);
 
-          std::map<int,rgbb>::iterator i = sumColors.find (comp);
-          rgbb color;
+          std::map<int,hsl>::iterator i = sumColors.find (comp);
+          hsl color;
           if (i == sumColors.end ()) {
-              color.r = 0;
-              color.g = 0;
-              color.b = 0;
-              sumColors.insert(std::pair<int,rgbb>(comp, color));
+              color.h = 0;
+              color.s = 0;
+              color.l = 0;
+              sumColors.insert(std::pair<int,hsl>(comp, color));
           }
           else
           {
               color = i->second;
-              i->second.r = color.r + (int)newColor.r;
-              i->second.g = color.g + (int)newColor.g;
-              i->second.b = color.b + (int)newColor.b;
+              i->second.h = color.h + newColor.h;
+              i->second.s = color.s + newColor.s;
+              i->second.l = color.l + newColor.l;
           }
       }
   }
-    
+
     std::map<int, rgbb> test;
     
   
@@ -189,29 +280,28 @@ SegmentResult segment_image(image<rgb> *im, float sigma, float c, int min_size,
     for (int x = 0; x < width; x++) {
       int comp = u->find(y * width + x);
         int size = u->size(comp); 
-        std::map<int,rgbb>::iterator i = sumColors.find (comp);
+        std::map<int,hsl>::iterator i = sumColors.find (comp);
         
-        rgbb color;
+        hsl color;
         if (i == sumColors.end ()) {
         }
         else
         {
             color = i->second;
         }
-        int avgR = color.r / size;
-        int avgG = color.g / size;
-        int avgB = color.b / size;
-
         
-        int distRG = abs(avgR - avgG);
-        int distGB = abs(avgG - avgB);
+        hsl avgHSL = {color.h/size, color.s/size, color.l/size};
+        rgbb avgRGB = HSLToRGB(avgHSL);
+        
+        int distRG = abs(avgRGB.r - avgRGB.g);
+        int distGB = abs(avgRGB.g - avgRGB.b);
 
         //if ( distRG < 40 && distGB < 100 && size > 200 && size < 5000) {
-        if ( avgR > 90 && avgG > 90 && avgB > 90 && distRG < 30) {
+        if ( avgRGB.r > 90 && avgRGB.g > 90 && avgRGB.b > 90 && distRG < 30) {
             imRef(output, x, y) = imRef(im,x,y);
             //imRef(output, x, y) = colors[comp];
 
-            rgbb a = {avgR,avgG, avgB, x, y};
+            rgbb a = {avgRGB.r,avgRGB.g, avgRGB.b, x, y};
             test.insert (std::pair<int,rgbb>(comp, a) );                     
         }
         else {
@@ -220,29 +310,32 @@ SegmentResult segment_image(image<rgb> *im, float sigma, float c, int min_size,
     }
   }  
     
-    std::map<int,rgbb>::iterator tot;
+    std::map<int,hsl>::iterator tot;
     
-    int totalR = 0;
-    int totalG = 0;
-    int totalB = 0;
+    float totalH = 0;
+    float totalS = 0;
+    float totalL = 0;
     int totalSize = 0;
     
     for ( tot=sumColors.begin() ; tot != sumColors.end(); tot++ ){
-        rgbb r = tot->second;
+        hsl rr = tot->second;
         int comp = tot->first;
         int size = u -> size(comp);
         if (test.count(comp) > 0 ) {
-            totalR = totalR + r.r;
-            totalG = totalG + r.g;
-            totalB = totalB + r.b;
+            totalH = totalH + rr.h;
+            totalS = totalS + rr.s;
+            totalL = totalL + rr.l;
             totalSize = totalSize + size;
         }
     }
-
+    
   delete [] colors;  
   delete u;
+    
+    hsl avg = {totalH/totalSize, totalS/totalSize, totalL/totalSize};
+    rgbb avgRGB = HSLToRGB(avg);
 
-    rgbb a = {totalR/totalSize,totalG/totalSize,totalB/totalSize, 0 , 0};
+    rgbb a = {avgRGB.r,avgRGB.g,avgRGB.b, 0 , 0};
     
     SegmentResult res = {output, test, a};
     return res;
