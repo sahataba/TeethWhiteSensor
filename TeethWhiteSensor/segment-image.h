@@ -40,96 +40,26 @@ struct hsl
     float h;
     float s;
     float l;
+    float alpha;
+};
+
+struct hslxy 
+{
+    float h;
+    float s;
+    float l;
+    float alpha;
+    int x;
+    int y;
 };
 
 typedef struct
 {
     image<rgb> *image;
-    std::map<int, rgbb> averages;
+    std::map<int, hslxy> averages;
     rgbb totalAvg; 
 } SegmentResult;
 
-static inline hsl RGBToHSL(rgbb rgb) {
-	float mincolor = fminf(fminf(rgb.r, rgb.g), rgb.b);
-	float maxcolor = fmaxf(fmaxf(rgb.r, rgb.g), rgb.b);
-    hsl hsl;
-    
-	hsl.h = 0;
-	hsl.s = 0;
-	hsl.l = (maxcolor + mincolor)/2;
-    
-	if (maxcolor == mincolor)
-		return hsl;
-    
-	if (hsl.l < 0.5)
-		hsl.s = (maxcolor - mincolor)/(maxcolor + mincolor);
-	else
-		hsl.s = (maxcolor - mincolor)/(2.0 - maxcolor - mincolor);
-    
-	if (rgb.r == maxcolor)
-		hsl.h = (rgb.g - rgb.b)/(maxcolor - mincolor);
-	else if (rgb.g == maxcolor)
-		hsl.h = 2.0 + (rgb.b - rgb.r)/(maxcolor - mincolor);
-	else
-		hsl.h = 4.0 + (rgb.r - rgb.g)/(maxcolor - mincolor);
-    
-	hsl.h /= 6;
-    return hsl;
-}
-
-static inline rgbb HSLToRGB(hsl hsl) {
-    rgbb rgb;
-	if (hsl.s == 0) {
-		rgb.r = rgb.g = rgb.b = hsl.l;
-		return rgb;
-	}
-    
-	float temp2 = 0;
-    
-	if (hsl.l < 0.5)
-		temp2 = hsl.l*(1 + hsl.s);
-	else
-		temp2 = hsl.l+hsl.s-hsl.l*hsl.s;
-    
-	float temp1 = 2*hsl.l - temp2;
-    
-	float temp[3];
-	temp[0] = hsl.h + 1/3.0;
-	temp[1] = hsl.h;
-	temp[2] = hsl.h - 1/3.0;
-    
-	for (int i = 0; i < 3; i++) {
-		float temp3 = temp[i];
-		if (temp3 < 0)
-			temp3 += 1.0;
-		else if (temp3 > 1)
-			temp3 -= 1.0;
-        
-		float color = 0;
-		if (6*temp3 < 1)
-			color = temp1+(temp2-temp1)*6*temp3;
-		else if (2*temp3 < 1)
-			color = temp2;
-		else if (3*temp3 < 2)
-			color = temp1+(temp2 - temp1)*(4 - temp3*6);
-		else
-			color = temp1;
-        
-		switch (i) {
-			case 0:
-				rgb.r = color;
-				break;
-			case 1:
-				rgb.g = color;
-				break;
-			case 2:
-				rgb.b = color;
-				break;
-		}
-	}
-    
-    return rgb;
-}
 
 // random color
 rgb random_rgb(){ 
@@ -252,8 +182,13 @@ SegmentResult segment_image(image<rgb> *im, float sigma, float c, int min_size,
       for (int x = 0; x < width; x++) {
           int comp = u->find(y * width + x);
           rgb newc = imRef(im, x , y);
-          rgbb newcc = {(int)newc.r, (int)newc.g, (int)newc.b, 0, 0};
-          hsl newColor = RGBToHSL(newcc);
+          UIColor *newcc = [UIColor colorWithRed:((int)newc.r)/255.0 green:((int)newc.g)/255.0 blue:((int)newc.b)/255.0 alpha:1.0];
+          CGFloat hue;
+          CGFloat saturation;
+          CGFloat brightness;
+          CGFloat alpha;
+          BOOL success = [newcc getHue:&hue saturation:&saturation brightness:&brightness alpha:&alpha];
+          hsl newColor = {hue,saturation,brightness,alpha};
 
           std::map<int,hsl>::iterator i = sumColors.find (comp);
           hsl color;
@@ -261,6 +196,7 @@ SegmentResult segment_image(image<rgb> *im, float sigma, float c, int min_size,
               color.h = 0;
               color.s = 0;
               color.l = 0;
+              color.alpha = 1;
               sumColors.insert(std::pair<int,hsl>(comp, color));
           }
           else
@@ -269,11 +205,13 @@ SegmentResult segment_image(image<rgb> *im, float sigma, float c, int min_size,
               i->second.h = color.h + newColor.h;
               i->second.s = color.s + newColor.s;
               i->second.l = color.l + newColor.l;
+              i->second.alpha = color.alpha + newColor.alpha;
+
           }
       }
   }
 
-    std::map<int, rgbb> test;
+    std::map<int, hslxy> test;
     
   
   for (int y = 0; y < height; y++) {
@@ -290,19 +228,28 @@ SegmentResult segment_image(image<rgb> *im, float sigma, float c, int min_size,
             color = i->second;
         }
         
-        hsl avgHSL = {color.h/size, color.s/size, color.l/size};
-        rgbb avgRGB = HSLToRGB(avgHSL);
-        
+        hsl avgHSL = {color.h/size, color.s/size, color.l/size, color.alpha/size};
+        UIColor *avg = [UIColor colorWithHue:avgHSL.h saturation:avgHSL.s brightness:avgHSL.l alpha:avgHSL.alpha];
+
+        CGFloat yr;
+        CGFloat yg;
+        CGFloat yb;
+        CGFloat yalpha;
+        BOOL success = [avg getRed:&yr green:&yg blue:&yb alpha:&yalpha];
+        rgbb avgRGB = {((int)(yr*255.0)),((int)(yg*255.0)),((int)(yb*255.0)), 0 ,0};
+
         int distRG = abs(avgRGB.r - avgRGB.g);
         int distGB = abs(avgRGB.g - avgRGB.b);
 
         //if ( distRG < 40 && distGB < 100 && size > 200 && size < 5000) {
-        if ( avgRGB.r > 90 && avgRGB.g > 90 && avgRGB.b > 90 && distRG < 30) {
+        //if ( avgRGB.r > 90 && avgRGB.g > 90 && avgRGB.b > 90 && distRG < 30) {
+        if ( avgHSL.h < (70/360.0) && avgHSL.h > (45/360.0)) {
+
             imRef(output, x, y) = imRef(im,x,y);
             //imRef(output, x, y) = colors[comp];
 
-            rgbb a = {avgRGB.r,avgRGB.g, avgRGB.b, x, y};
-            test.insert (std::pair<int,rgbb>(comp, a) );                     
+            hslxy a = {avgHSL.h,avgHSL.s, avgHSL.l, avgHSL.alpha, x, y};
+            test.insert (std::pair<int,hslxy>(comp, a) );                     
         }
         else {
             imRef(output, x, y) = colors[comp];
@@ -333,9 +280,20 @@ SegmentResult segment_image(image<rgb> *im, float sigma, float c, int min_size,
   delete u;
     
     hsl avg = {totalH/totalSize, totalS/totalSize, totalL/totalSize};
-    rgbb avgRGB = HSLToRGB(avg);
+    
+    
+    UIColor *avgx = [UIColor colorWithHue:avg.h saturation:avg.s brightness:avg.l alpha:avg.alpha];
+    
+    CGFloat yr;
+    CGFloat yg;
+    CGFloat yb;
+    CGFloat yalpha;
+    BOOL success = [avgx getRed:&yr green:&yg blue:&yb alpha:&yalpha];
+    rgbb avgRGB2 = {((int)(yr*255.0)),((int)(yg*255.0)),((int)(yb*255.0)), 0 ,0};
+    
+    //rgbb avgRGB = HSLToRGB(avg);
 
-    rgbb a = {avgRGB.r,avgRGB.g,avgRGB.b, 0 , 0};
+    rgbb a = {avgRGB2.r,avgRGB2.g,avgRGB2.b, 0 , 0};
     
     SegmentResult res = {output, test, a};
     return res;

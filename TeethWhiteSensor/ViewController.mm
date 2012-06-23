@@ -100,13 +100,13 @@
     }
     
     float sigma = 0.8;
-    float k =200;
-    int min_size = 100;
+    float k =100;
+    int min_size = 200;
 		
     int num_ccs; 
     SegmentResult res = segment_image(input, sigma, k, min_size, &num_ccs); 
     image<rgb> *seg = res.image;
-    std::map<int, rgbb> averages = res.averages;
+    std::map<int, hslxy> averages = res.averages;
 
     rgb *d = seg->data;
     
@@ -142,10 +142,10 @@
     UIGraphicsBeginImageContext(fullImage.size);
     [fullImage drawAtPoint: CGPointZero];
     
-    std::map<int,rgbb>::iterator it;
+    std::map<int,hslxy>::iterator it;
     for ( it=averages.begin() ; it != averages.end(); it++ ){
-        rgbb r = (*it).second;
-        myWatermarkText = [NSString stringWithFormat : @"[%i %i %i]", r.r,r.g,r.b ];
+        hslxy r = (*it).second;
+        myWatermarkText = [NSString stringWithFormat : @"[%f]", (r.h * 360.0)];
         [myWatermarkText drawAtPoint: CGPointMake(r.x, r.y) withFont: [UIFont systemFontOfSize: 12]];
     }
     
