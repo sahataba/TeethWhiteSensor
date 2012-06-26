@@ -21,7 +21,6 @@
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
-    NSLog(@"EEEE");
     self = [super initWithStyle:style];
     if (self) {
         // Custom initialization
