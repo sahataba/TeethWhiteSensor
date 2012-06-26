@@ -25,6 +25,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 #include "misc.h"
 #include "filter.h"
 #include "segment-graph.h"
+#include "math.h"
 
 struct rgbb
 {
@@ -38,6 +39,15 @@ struct rgbb
 struct hsl 
 {
     float h;
+    float s;
+    float l;
+    float alpha;
+};
+
+struct hslCart 
+{
+    float x;
+    float y;
     float s;
     float l;
     float alpha;
@@ -64,7 +74,6 @@ typedef struct
 // random color
 rgb random_rgb(){ 
   rgb c;
-  double r;
   
   c.r = (uchar)random();
   c.g = (uchar)random();
@@ -174,9 +183,9 @@ SegmentResult segment_image(image<rgb> *im, float sigma, float c, int min_size,
   for (int i = 0; i < width*height; i++)
     colors[i] = random_rgb();
     
-    printf("YYY + %i", num_ccs[0]);
+    printf("COMPS: + %i", num_ccs[0]);
     
-    std::map<int, hsl> sumColors;
+    std::map<int, hslCart> sumColors;
     
   for (int y = 0; y < height; y++) {
       for (int x = 0; x < width; x++) {
@@ -187,22 +196,24 @@ SegmentResult segment_image(image<rgb> *im, float sigma, float c, int min_size,
           CGFloat saturation;
           CGFloat brightness;
           CGFloat alpha;
-          BOOL success = [newcc getHue:&hue saturation:&saturation brightness:&brightness alpha:&alpha];
+          [newcc getHue:&hue saturation:&saturation brightness:&brightness alpha:&alpha];
           hsl newColor = {hue,saturation,brightness,alpha};
 
-          std::map<int,hsl>::iterator i = sumColors.find (comp);
-          hsl color;
+          std::map<int,hslCart>::iterator i = sumColors.find (comp);
+          hslCart color;
           if (i == sumColors.end ()) {
-              color.h = 0;
+              color.x = 0;
+              color.y = 0;
               color.s = 0;
               color.l = 0;
               color.alpha = 1;
-              sumColors.insert(std::pair<int,hsl>(comp, color));
+              sumColors.insert(std::pair<int,hslCart>(comp, color));
           }
           else
           {
               color = i->second;
-              i->second.h = color.h + newColor.h;
+              i->second.x = color.x + sinf(newColor.h * M_PI * 2.0);
+              i->second.y = color.y + cosf(newColor.h * M_PI * 2.0);
               i->second.s = color.s + newColor.s;
               i->second.l = color.l + newColor.l;
               i->second.alpha = color.alpha + newColor.alpha;
@@ -218,35 +229,36 @@ SegmentResult segment_image(image<rgb> *im, float sigma, float c, int min_size,
     for (int x = 0; x < width; x++) {
       int comp = u->find(y * width + x);
         int size = u->size(comp); 
-        std::map<int,hsl>::iterator i = sumColors.find (comp);
+        std::map<int,hslCart>::iterator i = sumColors.find (comp);
         
-        hsl color;
+        hslCart color;
         if (i == sumColors.end ()) {
         }
         else
         {
             color = i->second;
         }
+
+        float atanN = atan2f(color.y/size, color.x/size);
+        if (atanN < 0) atanN = atanN + (2.0 * M_PI);
         
-        hsl avgHSL = {color.h/size, color.s/size, color.l/size, color.alpha/size};
+        hsl avgHSL = {atanN/ (2*M_PI), color.s/size, color.l/size, color.alpha/size};
         UIColor *avg = [UIColor colorWithHue:avgHSL.h saturation:avgHSL.s brightness:avgHSL.l alpha:avgHSL.alpha];
 
         CGFloat yr;
         CGFloat yg;
         CGFloat yb;
         CGFloat yalpha;
-        BOOL success = [avg getRed:&yr green:&yg blue:&yb alpha:&yalpha];
+        [avg getRed:&yr green:&yg blue:&yb alpha:&yalpha];
         rgbb avgRGB = {((int)(yr*255.0)),((int)(yg*255.0)),((int)(yb*255.0)), 0 ,0};
 
         int distRG = abs(avgRGB.r - avgRGB.g);
         int distGB = abs(avgRGB.g - avgRGB.b);
 
-        //if ( distRG < 40 && distGB < 100 && size > 200 && size < 5000) {
         //if ( avgRGB.r > 90 && avgRGB.g > 90 && avgRGB.b > 90 && distRG < 30) {
-        if ( avgHSL.h < (70/360.0) && avgHSL.h > (45/360.0)) {
+        if ( (avgHSL.h < (55/360.0) && avgHSL.h > (30/360.0)) ||  avgHSL.l > 0.95) {
 
             imRef(output, x, y) = imRef(im,x,y);
-            //imRef(output, x, y) = colors[comp];
 
             hslxy a = {avgHSL.h,avgHSL.s, avgHSL.l, avgHSL.alpha, x, y};
             test.insert (std::pair<int,hslxy>(comp, a) );                     
@@ -257,19 +269,22 @@ SegmentResult segment_image(image<rgb> *im, float sigma, float c, int min_size,
     }
   }  
     
-    std::map<int,hsl>::iterator tot;
+    std::map<int,hslCart>::iterator tot;
     
-    float totalH = 0;
+    float totalX = 0;
+    float totalY = 0;
     float totalS = 0;
     float totalL = 0;
     int totalSize = 0;
     
+    
     for ( tot=sumColors.begin() ; tot != sumColors.end(); tot++ ){
-        hsl rr = tot->second;
+        hslCart rr = tot->second;
         int comp = tot->first;
         int size = u -> size(comp);
         if (test.count(comp) > 0 ) {
-            totalH = totalH + rr.h;
+            totalX = totalX + rr.x;
+            totalY = totalY + rr.y;
             totalS = totalS + rr.s;
             totalL = totalL + rr.l;
             totalSize = totalSize + size;
@@ -279,8 +294,11 @@ SegmentResult segment_image(image<rgb> *im, float sigma, float c, int min_size,
   delete [] colors;  
   delete u;
     
-    hsl avg = {totalH/totalSize, totalS/totalSize, totalL/totalSize};
     
+    float atanT = atan2f(totalY/totalSize, totalX/totalSize);
+    if (atanT < 0) atanT = atanT + (2.0 * M_PI);
+    
+    hsl avg = {atanT / (2 * M_PI), totalS/totalSize, totalL/totalSize};
     
     UIColor *avgx = [UIColor colorWithHue:avg.h saturation:avg.s brightness:avg.l alpha:avg.alpha];
     
@@ -288,13 +306,11 @@ SegmentResult segment_image(image<rgb> *im, float sigma, float c, int min_size,
     CGFloat yg;
     CGFloat yb;
     CGFloat yalpha;
-    BOOL success = [avgx getRed:&yr green:&yg blue:&yb alpha:&yalpha];
+    [avgx getRed:&yr green:&yg blue:&yb alpha:&yalpha];
     rgbb avgRGB2 = {((int)(yr*255.0)),((int)(yg*255.0)),((int)(yb*255.0)), 0 ,0};
     
-    //rgbb avgRGB = HSLToRGB(avg);
-
     rgbb a = {avgRGB2.r,avgRGB2.g,avgRGB2.b, 0 , 0};
-    
+
     SegmentResult res = {output, test, a};
     return res;
 }
