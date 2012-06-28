@@ -83,11 +83,13 @@ rgb random_rgb(){
 }
 
 // dissimilarity measure between pixels
-static inline float diff(image<float> *r, image<float> *g, image<float> *b,
+static inline float diff(image<rgb> *im,
 			 int x1, int y1, int x2, int y2) {
-  return sqrt(square(imRef(r, x1, y1)-imRef(r, x2, y2)) +
-	      square(imRef(g, x1, y1)-imRef(g, x2, y2)) +
-	      square(imRef(b, x1, y1)-imRef(b, x2, y2)));
+    rgb c1 = imRef(im,x1,y1);
+    rgb c2 = imRef(im,x2,y2);
+  return sqrt(square(c1.r-c2.r) +
+	      square(c1.g-c2.g) +
+	      square(c1.b-c2.b));
 }
 
 static inline float diffE(image<hsl> *im, int x1, int y1, int x2, int y2) {
@@ -119,30 +121,8 @@ SegmentResult segment_image(image<rgb> *im, float sigma, float c, int min_size,
   int width = im->width();
   int height = im->height();
 
-    
-  image<float> *r = new image<float>(width, height);
-  image<float> *g = new image<float>(width, height);
-  image<float> *b = new image<float>(width, height);
-
-  // smooth each color channel  
-  for (int y = 0; y < height; y++) {
-    for (int x = 0; x < width; x++) {
-      imRef(r, x, y) = imRef(im, x, y).r;
-      imRef(g, x, y) = imRef(im, x, y).g;
-      imRef(b, x, y) = imRef(im, x, y).b;
-    }
-  }
-    
  NSTimeInterval pass1 = [start timeIntervalSinceNow];
 
-
-  image<float> *smooth_r = smooth(r, sigma);
-  image<float> *smooth_g = smooth(g, sigma);
-  image<float> *smooth_b = smooth(b, sigma);
-  delete r;
-  delete g;
-  delete b;
-    
     NSTimeInterval pass2 = [start timeIntervalSinceNow];
 
  
@@ -154,28 +134,28 @@ SegmentResult segment_image(image<rgb> *im, float sigma, float c, int min_size,
       if (x < width-1) {
 	edges[num].a = y * width + x;
 	edges[num].b = y * width + (x+1);
-	edges[num].w = diff(smooth_r, smooth_g, smooth_b, x, y, x+1, y);
+	edges[num].w = diff(im, x, y, x+1, y);
 	num++;
       }
 
       if (y < height-1) {
 	edges[num].a = y * width + x;
 	edges[num].b = (y+1) * width + x;
-	edges[num].w = diff(smooth_r, smooth_g, smooth_b, x, y, x, y+1);
+	edges[num].w = diff(im, x, y, x, y+1);
 	num++;
       }
 
       if ((x < width-1) && (y < height-1)) {
 	edges[num].a = y * width + x;
 	edges[num].b = (y+1) * width + (x+1);
-	edges[num].w = diff(smooth_r, smooth_g, smooth_b, x, y, x+1, y+1);
+	edges[num].w = diff(im, x, y, x+1, y+1);
 	num++;
       }
 
       if ((x < width-1) && (y > 0)) {
 	edges[num].a = y * width + x;
 	edges[num].b = (y-1) * width + (x+1);
-	edges[num].w = diff(smooth_r, smooth_g, smooth_b, x, y, x+1, y-1);
+	edges[num].w = diff(im, x, y, x+1, y-1);
 	num++;
       }
     }
