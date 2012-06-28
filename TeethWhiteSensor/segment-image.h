@@ -90,6 +90,15 @@ static inline float diff(image<float> *r, image<float> *g, image<float> *b,
 	      square(imRef(b, x1, y1)-imRef(b, x2, y2)));
 }
 
+static inline float diffE(image<hsl> *im, int x1, int y1, int x2, int y2) {
+    hsl hsl1 = imRef(im, x1,y1);
+    hsl hsl2 = imRef(im, x2,y2);
+
+    return sqrt(square(hsl1.h - hsl2.h) +
+                square(hsl1.s - hsl2.l) +
+                square(hsl1.l - hsl2.l));
+}
+
 /*
  * Segment an image
  *
@@ -103,9 +112,14 @@ static inline float diff(image<float> *r, image<float> *g, image<float> *b,
  */
 SegmentResult segment_image(image<rgb> *im, float sigma, float c, int min_size,
 			  int *num_ccs) {
+    
+    float PI2 = 2 * M_PI;
+    
+    NSDate *start = [NSDate date];
   int width = im->width();
   int height = im->height();
 
+    
   image<float> *r = new image<float>(width, height);
   image<float> *g = new image<float>(width, height);
   image<float> *b = new image<float>(width, height);
@@ -118,12 +132,19 @@ SegmentResult segment_image(image<rgb> *im, float sigma, float c, int min_size,
       imRef(b, x, y) = imRef(im, x, y).b;
     }
   }
+    
+ NSTimeInterval pass1 = [start timeIntervalSinceNow];
+
+
   image<float> *smooth_r = smooth(r, sigma);
   image<float> *smooth_g = smooth(g, sigma);
   image<float> *smooth_b = smooth(b, sigma);
   delete r;
   delete g;
   delete b;
+    
+    NSTimeInterval pass2 = [start timeIntervalSinceNow];
+
  
   // build graph
   edge *edges = new edge[width*height*4];
@@ -159,12 +180,19 @@ SegmentResult segment_image(image<rgb> *im, float sigma, float c, int min_size,
       }
     }
   }
+    /*
   delete smooth_r;
   delete smooth_g;
-  delete smooth_b;
+  delete smooth_b;*/
+    
+    NSTimeInterval pass3 = [start timeIntervalSinceNow];
+
 
   // segment
   universe *u = segment_graph(width*height, num, edges, c);
+    
+    NSTimeInterval pass4 = [start timeIntervalSinceNow];
+
   
   // post process small components
   for (int i = 0; i < num; i++) {
@@ -187,15 +215,18 @@ SegmentResult segment_image(image<rgb> *im, float sigma, float c, int min_size,
     
     std::map<int, hslCart> sumColors;
     
+    NSTimeInterval pass5 = [start timeIntervalSinceNow];
+
+    
+    CGFloat hue;
+    CGFloat saturation;
+    CGFloat brightness;
+    CGFloat alpha;
   for (int y = 0; y < height; y++) {
       for (int x = 0; x < width; x++) {
           int comp = u->find(y * width + x);
           rgb newc = imRef(im, x , y);
           UIColor *newcc = [UIColor colorWithRed:((int)newc.r)/255.0 green:((int)newc.g)/255.0 blue:((int)newc.b)/255.0 alpha:1.0];
-          CGFloat hue;
-          CGFloat saturation;
-          CGFloat brightness;
-          CGFloat alpha;
           [newcc getHue:&hue saturation:&saturation brightness:&brightness alpha:&alpha];
           hsl newColor = {hue,saturation,brightness,alpha};
 
@@ -212,8 +243,8 @@ SegmentResult segment_image(image<rgb> *im, float sigma, float c, int min_size,
           else
           {
               color = i->second;
-              i->second.x = color.x + sinf(newColor.h * M_PI * 2.0);
-              i->second.y = color.y + cosf(newColor.h * M_PI * 2.0);
+              i->second.x = color.x + sinf(newColor.h * PI2);
+              i->second.y = color.y + cosf(newColor.h * PI2);
               i->second.s = color.s + newColor.s;
               i->second.l = color.l + newColor.l;
               i->second.alpha = color.alpha + newColor.alpha;
@@ -224,7 +255,14 @@ SegmentResult segment_image(image<rgb> *im, float sigma, float c, int min_size,
 
     std::map<int, hslxy> test;
     
-  
+    NSTimeInterval pass6 = [start timeIntervalSinceNow];
+
+    CGFloat yr;
+    CGFloat yg;
+    CGFloat yb;
+    CGFloat yalpha;
+    float yellowStart = 30/360.0;
+    float yellowEnd = 55/360.0;
   for (int y = 0; y < height; y++) {
     for (int x = 0; x < width; x++) {
       int comp = u->find(y * width + x);
@@ -240,23 +278,11 @@ SegmentResult segment_image(image<rgb> *im, float sigma, float c, int min_size,
         }
 
         float atanN = atan2f(color.y/size, color.x/size);
-        if (atanN < 0) atanN = atanN + (2.0 * M_PI);
+        if (atanN < 0) atanN = atanN + PI2;
         
-        hsl avgHSL = {atanN/ (2*M_PI), color.s/size, color.l/size, color.alpha/size};
-        UIColor *avg = [UIColor colorWithHue:avgHSL.h saturation:avgHSL.s brightness:avgHSL.l alpha:avgHSL.alpha];
-
-        CGFloat yr;
-        CGFloat yg;
-        CGFloat yb;
-        CGFloat yalpha;
-        [avg getRed:&yr green:&yg blue:&yb alpha:&yalpha];
-        rgbb avgRGB = {((int)(yr*255.0)),((int)(yg*255.0)),((int)(yb*255.0)), 0 ,0};
-
-        int distRG = abs(avgRGB.r - avgRGB.g);
-        int distGB = abs(avgRGB.g - avgRGB.b);
-
-        //if ( avgRGB.r > 90 && avgRGB.g > 90 && avgRGB.b > 90 && distRG < 30) {
-        if ( (avgHSL.h < (55/360.0) && avgHSL.h > (30/360.0)) ||  avgHSL.l > 0.95) {
+        hsl avgHSL = {atanN/ PI2, color.s/size, color.l/size, color.alpha/size};
+        
+        if ( (avgHSL.h < yellowEnd && avgHSL.h > yellowStart) ||  avgHSL.l > 0.95) {
 
             imRef(output, x, y) = imRef(im,x,y);
 
@@ -296,22 +322,33 @@ SegmentResult segment_image(image<rgb> *im, float sigma, float c, int min_size,
     
     
     float atanT = atan2f(totalY/totalSize, totalX/totalSize);
-    if (atanT < 0) atanT = atanT + (2.0 * M_PI);
+    if (atanT < 0) atanT = atanT + PI2;
     
-    hsl avg = {atanT / (2 * M_PI), totalS/totalSize, totalL/totalSize};
+    hsl avg = {atanT / PI2, totalS/totalSize, totalL/totalSize};
     
     UIColor *avgx = [UIColor colorWithHue:avg.h saturation:avg.s brightness:avg.l alpha:avg.alpha];
-    
+    /*
     CGFloat yr;
     CGFloat yg;
     CGFloat yb;
-    CGFloat yalpha;
+    CGFloat yalpha;*/
     [avgx getRed:&yr green:&yg blue:&yb alpha:&yalpha];
     rgbb avgRGB2 = {((int)(yr*255.0)),((int)(yg*255.0)),((int)(yb*255.0)), 0 ,0};
     
     rgbb a = {avgRGB2.r,avgRGB2.g,avgRGB2.b, 0 , 0};
 
     SegmentResult res = {output, test, a};
+    NSTimeInterval pass7 = [start timeIntervalSinceNow];
+    
+    //printf("PASS1 %f", pass1);
+    printf("PASS2 %f", pass2);
+    printf("PASS3 %f", pass3);
+    printf("PASS4 %f", pass4);
+    printf("PASS5 %f", pass5);
+    printf("PASS6 %f", pass6);
+    printf("PASS7 %f", pass7);
+
+
     return res;
 }
 
