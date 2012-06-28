@@ -63,6 +63,88 @@ struct hslxy
     int y;
 };
 
+static inline hsl RGBToHSL(rgbb rgb) {
+	float mincolor = fminf(fminf(rgb.r, rgb.g), rgb.b);
+	float maxcolor = fmaxf(fmaxf(rgb.r, rgb.g), rgb.b);
+    hsl hsl;
+    
+	hsl.h = 0;
+	hsl.s = 0;
+	hsl.l = (maxcolor + mincolor)/2;
+    
+	if (maxcolor == mincolor)
+		return hsl;
+    
+	if (hsl.l < 0.5)
+		hsl.s = (maxcolor - mincolor)/(maxcolor + mincolor);
+	else
+		hsl.s = (maxcolor - mincolor)/(2.0 - maxcolor - mincolor);
+    
+	if (rgb.r == maxcolor)
+		hsl.h = (rgb.g - rgb.b)/(maxcolor - mincolor);
+	else if (rgb.g == maxcolor)
+		hsl.h = 2.0 + (rgb.b - rgb.r)/(maxcolor - mincolor);
+	else
+		hsl.h = 4.0 + (rgb.r - rgb.g)/(maxcolor - mincolor);
+    
+	hsl.h /= 6;
+    return hsl;
+}
+
+static inline rgbb HSLToRGB(hsl hsl) {
+    rgbb rgb;
+	if (hsl.s == 0) {
+		rgb.r = rgb.g = rgb.b = hsl.l;
+		return rgb;
+	}
+    
+	float temp2 = 0;
+    
+	if (hsl.l < 0.5)
+		temp2 = hsl.l*(1 + hsl.s);
+	else
+		temp2 = hsl.l+hsl.s-hsl.l*hsl.s;
+    
+	float temp1 = 2*hsl.l - temp2;
+    
+	float temp[3];
+	temp[0] = hsl.h + 1/3.0;
+	temp[1] = hsl.h;
+	temp[2] = hsl.h - 1/3.0;
+    
+	for (int i = 0; i < 3; i++) {
+		float temp3 = temp[i];
+		if (temp3 < 0)
+			temp3 += 1.0;
+		else if (temp3 > 1)
+			temp3 -= 1.0;
+        
+		float color = 0;
+		if (6*temp3 < 1)
+			color = temp1+(temp2-temp1)*6*temp3;
+		else if (2*temp3 < 1)
+			color = temp2;
+		else if (3*temp3 < 2)
+			color = temp1+(temp2 - temp1)*(4 - temp3*6);
+		else
+			color = temp1;
+        
+		switch (i) {
+			case 0:
+				rgb.r = color;
+				break;
+			case 1:
+				rgb.g = color;
+				break;
+			case 2:
+				rgb.b = color;
+				break;
+		}
+	}
+    
+    return rgb;
+}
+
 typedef struct
 {
     image<rgb> *image;
@@ -197,18 +279,13 @@ SegmentResult segment_image(image<rgb> *im, float sigma, float c, int min_size,
     
     NSTimeInterval pass5 = [start timeIntervalSinceNow];
 
-    
-    CGFloat hue;
-    CGFloat saturation;
-    CGFloat brightness;
-    CGFloat alpha;
   for (int y = 0; y < height; y++) {
       for (int x = 0; x < width; x++) {
           int comp = u->find(y * width + x);
           rgb newc = imRef(im, x , y);
-          UIColor *newcc = [UIColor colorWithRed:((int)newc.r)/255.0 green:((int)newc.g)/255.0 blue:((int)newc.b)/255.0 alpha:1.0];
-          [newcc getHue:&hue saturation:&saturation brightness:&brightness alpha:&alpha];
-          hsl newColor = {hue,saturation,brightness,alpha};
+          
+          rgbb r = {((int)newc.r), ((int)newc.g), ((int)newc.b), 0, 0};
+          hsl newColor = RGBToHSL(r);
 
           std::map<int,hslCart>::iterator i = sumColors.find (comp);
           hslCart color;
@@ -237,11 +314,7 @@ SegmentResult segment_image(image<rgb> *im, float sigma, float c, int min_size,
     
     NSTimeInterval pass6 = [start timeIntervalSinceNow];
 
-    CGFloat yr;
-    CGFloat yg;
-    CGFloat yb;
-    CGFloat yalpha;
-    float yellowStart = 30/360.0;
+    float yellowStart = 25/360.0;
     float yellowEnd = 55/360.0;
   for (int y = 0; y < height; y++) {
     for (int x = 0; x < width; x++) {
@@ -262,7 +335,7 @@ SegmentResult segment_image(image<rgb> *im, float sigma, float c, int min_size,
         
         hsl avgHSL = {atanN/ PI2, color.s/size, color.l/size, color.alpha/size};
         
-        if ( (avgHSL.h < yellowEnd && avgHSL.h > yellowStart) ||  avgHSL.l > 0.95) {
+        if ( (avgHSL.h < yellowEnd && avgHSL.h > yellowStart) /*||  avgHSL.l > 0.95*/) {
 
             imRef(output, x, y) = imRef(im,x,y);
 
@@ -306,18 +379,9 @@ SegmentResult segment_image(image<rgb> *im, float sigma, float c, int min_size,
     
     hsl avg = {atanT / PI2, totalS/totalSize, totalL/totalSize};
     
-    UIColor *avgx = [UIColor colorWithHue:avg.h saturation:avg.s brightness:avg.l alpha:avg.alpha];
-    /*
-    CGFloat yr;
-    CGFloat yg;
-    CGFloat yb;
-    CGFloat yalpha;*/
-    [avgx getRed:&yr green:&yg blue:&yb alpha:&yalpha];
-    rgbb avgRGB2 = {((int)(yr*255.0)),((int)(yg*255.0)),((int)(yb*255.0)), 0 ,0};
+    rgbb avgRGB2 = HSLToRGB(avg);
     
-    rgbb a = {avgRGB2.r,avgRGB2.g,avgRGB2.b, 0 , 0};
-
-    SegmentResult res = {output, test, a};
+    SegmentResult res = {output, test, avgRGB2};
     NSTimeInterval pass7 = [start timeIntervalSinceNow];
     
     //printf("PASS1 %f", pass1);
