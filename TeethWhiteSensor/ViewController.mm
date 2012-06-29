@@ -84,47 +84,15 @@
     // context.
     unsigned char* data = (unsigned char*)CGBitmapContextGetData (cgctx);
 
-    
-    image<rgb> *input = new image<rgb>((int)w, (int)h);
-    rgb* dat = input->data;
-    for (int j = 0; j < h; j++) {
-        for (int i = 0; i < w; i++) {
-            int offset = 4*((w*round(j))+round(i));
-            int alpha =  data[offset];
-            int red = data[offset+1];
-            int green = data[offset+2];
-            int blue = data[offset+3];
-            rgb c = {red,green,blue};
-            dat[j * w + i] = c;
-        }
-    }
-    
     float sigma = 0.8;
     float k =100;
     int min_size = 200;
 		
     int num_ccs; 
-    SegmentResult res = segment_image(input, sigma, k, min_size, &num_ccs); 
+    SegmentResult res = segment_image(data, w, h, sigma, k, min_size, &num_ccs); 
     image<rgb> *seg = res.image;
     std::map<int, hslxy> averages = res.averages;
 
-    rgb *d = seg->data;
-    
-    for (int j = 0; j < h; j++) {
-        for (int i = 0; i < w; i++) {
-            //offset locates the pixel in the data from x,y.
-            //4 for 4 bytes of data per pixel, w is width of one row of data.
-            int offset = 4*((w*round(j))+round(i));
-            rgb col = d[(int)(w*round(j)+round(i))];
-            data[offset + 1] = col.r;
-            data[offset + 2] = col.g;
-            data[offset + 3] = col.b;
-            
-        }
-    }
-        
-    printf("got %d components\n", num_ccs);
-    
     // When finished, release the context
     CGContextRelease(cgctx); 
     // Free image data memory for the context
