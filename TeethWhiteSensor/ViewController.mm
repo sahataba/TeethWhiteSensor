@@ -90,7 +90,6 @@
 		
     int num_ccs; 
     SegmentResult res = segment_image(data, w, h, sigma, k, min_size, &num_ccs); 
-    image<rgb> *seg = res.image;
     std::map<int, hslxy> averages = res.averages;
 
     // When finished, release the context
