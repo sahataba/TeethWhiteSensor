@@ -41,7 +41,7 @@
 		CEA6952E15A469B600318A2F /* iTunesArtwork@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CEA6952415A469B600318A2F /* iTunesArtwork@2x.png */; };
 		CEE7F70D158F3F6A002DBB4B /* TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEE7F70B158F3F6A002DBB4B /* TableViewController.m */; };
 		CEE7F71A158F4BB5002DBB4B /* RGBMark.m in Sources */ = {isa = PBXBuildFile; fileRef = CEE7F719158F4BB5002DBB4B /* RGBMark.m */; };
-		CEE7F71D158F5230002DBB4B /* RGBMarkDataController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEE7F71C158F5230002DBB4B /* RGBMarkDataController.m */; };
+		CEF725BC15A5B533007E7918 /* Mark.m in Sources */ = {isa = PBXBuildFile; fileRef = CEF725BB15A5B533007E7918 /* Mark.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -105,8 +105,8 @@
 		CEE7F70B158F3F6A002DBB4B /* TableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableViewController.m; sourceTree = "<group>"; };
 		CEE7F718158F4973002DBB4B /* RGBMark.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RGBMark.h; sourceTree = "<group>"; };
 		CEE7F719158F4BB5002DBB4B /* RGBMark.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGBMark.m; sourceTree = "<group>"; };
-		CEE7F71B158F5230002DBB4B /* RGBMarkDataController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RGBMarkDataController.h; sourceTree = "<group>"; };
-		CEE7F71C158F5230002DBB4B /* RGBMarkDataController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGBMarkDataController.m; sourceTree = "<group>"; };
+		CEF725BA15A5B533007E7918 /* Mark.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Mark.h; sourceTree = "<group>"; };
+		CEF725BB15A5B533007E7918 /* Mark.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Mark.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,12 +137,12 @@
 		CE51D548156EB58E00632943 = {
 			isa = PBXGroup;
 			children = (
+				CEF725BA15A5B533007E7918 /* Mark.h */,
+				CEF725BB15A5B533007E7918 /* Mark.m */,
 				CEA6951815A4589600318A2F /* Resources */,
 				CE68614D15A3275600E38912 /* CoreData.framework */,
 				CE68614915A30D7800E38912 /* MarkModel.xcdatamodeld */,
 				CEE7F718158F4973002DBB4B /* RGBMark.h */,
-				CEE7F71B158F5230002DBB4B /* RGBMarkDataController.h */,
-				CEE7F71C158F5230002DBB4B /* RGBMarkDataController.m */,
 				CEE7F719158F4BB5002DBB4B /* RGBMark.m */,
 				CEE7F70B158F3F6A002DBB4B /* TableViewController.m */,
 				CEE7F70A158F3F6A002DBB4B /* TableViewController.h */,
@@ -391,8 +391,8 @@
 				CE8E321A1580CF3000AC0245 /* SVProgressHUD.m in Sources */,
 				CEE7F70D158F3F6A002DBB4B /* TableViewController.m in Sources */,
 				CEE7F71A158F4BB5002DBB4B /* RGBMark.m in Sources */,
-				CEE7F71D158F5230002DBB4B /* RGBMarkDataController.m in Sources */,
 				CE68614B15A30D7800E38912 /* MarkModel.xcdatamodeld in Sources */,
+				CEF725BC15A5B533007E7918 /* Mark.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -11,8 +11,20 @@
 #include "ViewController.h"
 
 @class RGBMarkDataController;
-@interface TableViewController : UITableViewController<ViewControllerDelegate>
+@interface TableViewController : UITableViewController<ViewControllerDelegate, NSFetchedResultsControllerDelegate> {
+@private
+    NSPersistentStoreCoordinator *persistentStoreCoordinator;
+    NSFetchedResultsController *fetchedResultsController;
+    NSManagedObjectContext *managedObjectContext;
+    NSManagedObjectModel *managedObjectModel;
+}
 
-@property (strong, nonatomic) RGBMarkDataController *dataController;
+@property (nonatomic, retain, readonly) NSPersistentStoreCoordinator *persistentStoreCoordinator;
+@property (nonatomic, retain) NSFetchedResultsController *fetchedResultsController;
+@property (nonatomic, retain, readonly) NSManagedObjectModel *managedObjectModel;
+@property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
+
+- (NSString *)applicationDocumentsDirectory;
+
 
 @end

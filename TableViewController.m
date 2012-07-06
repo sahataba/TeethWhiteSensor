@@ -7,8 +7,8 @@
 //
 
 #import "TableViewController.h"
-#import "RGBMarkDataController.h"
 #import "ViewController.h"
+#import "Mark.h"
 @class RGBMark;
 
 @interface TableViewController ()
@@ -17,7 +17,8 @@
 
 @implementation TableViewController
 
-@synthesize dataController = _dataController;
+@synthesize managedObjectContext, fetchedResultsController;
+
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -31,8 +32,17 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.dataController = [[RGBMarkDataController alloc] init];
-    NSLog(@"EEEE %i", self.dataController.rgbMarkDataList.count);
+    [self managedObjectModel];
+    NSError *error = nil;
+    if (![[self fetchedResultsController] performFetch:&error]) {
+        /*
+         Replace this implementation with code to handle the error appropriately.
+         
+         abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development. If it is not possible to recover from the error, display an alert panel that instructs the user to quit the application by pressing the Home button.
+         */
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        abort();
+    } 
     
     // Add our custom add button as the nav bar's custom right view
     /*UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"AddTitle", @"") style:UIBarButtonItemStyleBordered target:self action:@selector(addAction:)] ;
@@ -62,13 +72,13 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    // Return the number of sections.
-    return 1;
+    return [[fetchedResultsController sections] count];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.dataController countOfList];
+    id <NSFetchedResultsSectionInfo> sectionInfo = [[fetchedResultsController sections] objectAtIndex:section];
+    return [sectionInfo numberOfObjects];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -86,13 +96,13 @@
         [formatter setDateStyle:NSDateFormatterMediumStyle];
     }
     
-    RGBMark *markAtIndex = [self.dataController objectInListAtIndex:indexPath.row];
-    NSString *mark = [NSString stringWithFormat : @"[%i %i %i]", markAtIndex.r,markAtIndex.g,markAtIndex.b ];
+    Mark *markAtIndex = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    NSString *mark = [NSString stringWithFormat : @"[%i %i %i]", markAtIndex.red.intValue,markAtIndex.green.intValue,markAtIndex.blue.intValue ];
     [[cell textLabel] setText:mark];
     [[cell detailTextLabel] setText: [formatter stringFromDate:(NSDate *)markAtIndex.date]];
     
     UIImageView *image = [cell imageView];
-    UIImage *img = [self imageWithColor:[UIColor colorWithRed:markAtIndex.r/255.0 green:markAtIndex.g/255.0 blue:markAtIndex.b/255.0 alpha:1.0]];
+    UIImage *img = [self imageWithColor:[UIColor colorWithRed:markAtIndex.red.intValue/255.0 green:markAtIndex.green.intValue/255.0 blue:markAtIndex.blue.intValue/255.0 alpha:1.0]];
     image.image = img;
     
     return cell;
@@ -113,14 +123,10 @@
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-    /*
     
-    UIImageView *thumbnail = (UIImageView *)[cell viewWithTag:1];
-    thumbnail.backgroundColor = [UIColor grayColor];
+    Mark *obj = [self.fetchedResultsController objectAtIndexPath:indexPath];
     
-    RGBMark *mark = [self.dataController objectInListAtIndex:indexPath.row];
-    
-    CGFloat newComponents[4] = {mark.r/255.0,mark.g/255.0,mark.b/255.0,0.5};
+    CGFloat newComponents[4] = {obj.red.intValue/255.0,obj.green.intValue/255.0,obj.blue.intValue/255.0,0.5};
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
 	CGColorRef newColor = CGColorCreate(colorSpace, newComponents);
 	CGColorSpaceRelease(colorSpace);
@@ -129,7 +135,6 @@
 	CGColorRelease(newColor);
     
     cell.imageView.backgroundColor = retColor;
-    cell.backgroundColor = [UIColor colorWithRed:mark.r/255.0 green: mark.g/255.0 blue: mark.b/255.0 alpha: 1.0]; */
 }
 
 
@@ -147,8 +152,18 @@
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the row from the data source
-        [self.dataController removeRGBMarkAtIndex:indexPath.row];
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        [self.managedObjectContext deleteObject:[self.fetchedResultsController objectAtIndexPath:indexPath]];
+        // Save the context.
+		NSError *error;
+		if (![self.managedObjectContext save:&error]) {
+			/*
+			 Replace this implementation with code to handle the error appropriately.
+			 
+			 abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development. If it is not possible to recover from the error, display an alert panel that instructs the user to quit the application by pressing the Home button.
+			 */
+			NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+			abort();
+		}
     }   
     else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
@@ -191,8 +206,26 @@
 }
 
 - (void)didSave:(RGBMark *)mark {
-    [self.dataController addRGBMarkWithDate:mark.date r:mark.r g:mark.g b:mark.b];
-    [self.tableView reloadData];
+    
+	Mark *newMark = [NSEntityDescription insertNewObjectForEntityForName:@"Mark" inManagedObjectContext:self.managedObjectContext];
+    newMark.red = [NSNumber numberWithInt: mark.r];
+    newMark.green = [NSNumber numberWithInt: mark.g];
+    newMark.blue = [NSNumber numberWithInt: mark.b];
+    newMark.date = [NSDate date];
+    // Save the context.
+    NSError *error;
+    if (![self.managedObjectContext save:&error]) {
+        printf("tt");
+    }
+    if (![[self fetchedResultsController] performFetch:&error]) {
+        /*
+         Replace this implementation with code to handle the error appropriately.
+         
+         abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development. If it is not possible to recover from the error, display an alert panel that instructs the user to quit the application by pressing the Home button.
+         */
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        abort();
+    }     
 }
 
 #pragma mark - custom actions
@@ -214,5 +247,172 @@
         asker.delegate = self;
     }
 
+}
+
+/**
+ Returns the managed object context for the application.
+ If the context doesn't already exist, it is created and bound to the persistent store coordinator for the application.
+ */
+- (NSManagedObjectContext *)managedObjectContext {
+	
+    if (managedObjectContext != nil) {
+        return managedObjectContext;
+    }
+	
+    NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
+    if (coordinator != nil) {
+        managedObjectContext = [NSManagedObjectContext new];
+        [managedObjectContext setPersistentStoreCoordinator: coordinator];
+    }
+    return managedObjectContext;
+}
+
+#pragma mark Fetched results controller
+
+- (NSFetchedResultsController *)fetchedResultsController {
+    // Set up the fetched results controller if needed.
+    if (fetchedResultsController == nil) {
+        [self managedObjectContext];        
+        // Create the fetch request for the entity.
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+        // Edit the entity name as appropriate.
+        NSEntityDescription *entity = [NSEntityDescription entityForName:@"Mark" inManagedObjectContext:managedObjectContext];
+        [fetchRequest setEntity:entity];
+        
+        // Edit the sort key as appropriate.
+        NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"date" ascending:YES];
+        NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
+        
+        [fetchRequest setSortDescriptors:sortDescriptors];
+        
+        // Edit the section name key path and cache name if appropriate.
+        // nil for section name key path means "no sections".
+        NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:managedObjectContext sectionNameKeyPath:nil cacheName:@"Root"];
+        aFetchedResultsController.delegate = self;
+        self.fetchedResultsController = aFetchedResultsController;
+        
+    }
+    
+    return fetchedResultsController;
+}
+
+/**
+ Returns the managed object model for the application.
+ If the model doesn't already exist, it is created by merging all of the models found in the application bundle.
+ */
+- (NSManagedObjectModel *)managedObjectModel {
+	
+    if (managedObjectModel != nil) {
+        return managedObjectModel;
+    }
+    managedObjectModel = [NSManagedObjectModel mergedModelFromBundles:nil];    
+    return managedObjectModel;
+}
+
+/**
+ Returns the persistent store coordinator for the application.
+ If the coordinator doesn't already exist, it is created and the application's store added to it.
+ */
+- (NSPersistentStoreCoordinator *)persistentStoreCoordinator {
+	
+    if (persistentStoreCoordinator != nil) {
+        return persistentStoreCoordinator;
+    }
+    
+	NSString *storePath = [[self applicationDocumentsDirectory] stringByAppendingPathComponent:@"Marks.sqlite"];
+	/*
+	 Set up the store.
+	 For the sake of illustration, provide a pre-populated default store.
+	 */
+	NSFileManager *fileManager = [NSFileManager defaultManager];
+	// If the expected store doesn't exist, copy the default store.
+	if (![fileManager fileExistsAtPath:storePath]) {
+		NSString *defaultStorePath = [[NSBundle mainBundle] pathForResource:@"Marks" ofType:@"sqlite"];
+		if (defaultStorePath) {
+			[fileManager copyItemAtPath:defaultStorePath toPath:storePath error:NULL];
+		}
+	}
+	
+	NSURL *storeUrl = [NSURL fileURLWithPath:storePath];
+	
+	NSError *error;
+    persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel: [self managedObjectModel]];
+    if (![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeUrl options:nil error:&error]) {
+		/*
+		 Replace this implementation with code to handle the error appropriately.
+		 
+		 abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development. If it is not possible to recover from the error, display an alert panel that instructs the user to quit the application by pressing the Home button.
+		 
+		 Typical reasons for an error here include:
+		 * The persistent store is not accessible
+		 * The schema for the persistent store is incompatible with current managed object model
+		 Check the error message to determine what the actual problem was.
+		 */
+		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+		abort();
+    }    
+    
+    return persistentStoreCoordinator;
+}
+
+/**
+ Returns the path to the application's documents directory.
+ */
+- (NSString *)applicationDocumentsDirectory {
+	return [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+}
+
+
+
+/**
+ Delegate methods of NSFetchedResultsController to respond to additions, removals and so on.
+ */
+
+- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller {
+	// The fetch controller is about to start sending change notifications, so prepare the table view for updates.
+	[self.tableView beginUpdates];
+}
+
+
+- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath {
+	UITableView *tableView = self.tableView;
+	
+	switch(type) {
+		case NSFetchedResultsChangeInsert:
+			[tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+			break;
+			
+		case NSFetchedResultsChangeDelete:
+			[tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+			break;
+			
+		case NSFetchedResultsChangeUpdate:
+			//[self configureCell:(RecipeTableViewCell *)[tableView cellForRowAtIndexPath:indexPath] atIndexPath:indexPath];
+			break;
+			
+		case NSFetchedResultsChangeMove:
+			[tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            [tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+	}
+}
+
+
+- (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id <NSFetchedResultsSectionInfo>)sectionInfo atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type {
+	switch(type) {
+		case NSFetchedResultsChangeInsert:
+			[self.tableView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
+			break;
+			
+		case NSFetchedResultsChangeDelete:
+			[self.tableView deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
+			break;
+	}
+}
+
+
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
+	// The fetch controller has sent all current change notifications, so tell the table view to process all updates.
+	[self.tableView endUpdates];
 }
 @end
