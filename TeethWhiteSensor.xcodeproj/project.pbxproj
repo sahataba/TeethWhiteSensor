@@ -29,19 +29,22 @@
 		CE8E322C1580E4BE00AC0245 /* COPYING in Resources */ = {isa = PBXBuildFile; fileRef = CE8E321E1580E4BE00AC0245 /* COPYING */; };
 		CE8E322F1580E4BE00AC0245 /* README in Resources */ = {isa = PBXBuildFile; fileRef = CE8E32271580E4BE00AC0245 /* README */; };
 		CE8E32301580E4BE00AC0245 /* README in Resources */ = {isa = PBXBuildFile; fileRef = CE8E32271580E4BE00AC0245 /* README */; };
+		CE9655E315AEF11C00F5D6BA /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = CE9655E215AEF11C00F5D6BA /* Icon.png */; };
+		CE9655E515AF271400F5D6BA /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE9655E415AF271400F5D6BA /* opencv2.framework */; };
 		CEA6952515A469B600318A2F /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = CEA6951B15A469B600318A2F /* Icon-72.png */; };
 		CEA6952615A469B600318A2F /* Icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CEA6951C15A469B600318A2F /* Icon-72@2x.png */; };
 		CEA6952715A469B600318A2F /* Icon-Small-50.png in Resources */ = {isa = PBXBuildFile; fileRef = CEA6951D15A469B600318A2F /* Icon-Small-50.png */; };
 		CEA6952815A469B600318A2F /* Icon-Small-50@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CEA6951E15A469B600318A2F /* Icon-Small-50@2x.png */; };
 		CEA6952915A469B600318A2F /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = CEA6951F15A469B600318A2F /* Icon-Small.png */; };
 		CEA6952A15A469B600318A2F /* Icon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CEA6952015A469B600318A2F /* Icon-Small@2x.png */; };
-		CEA6952B15A469B600318A2F /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = CEA6952115A469B600318A2F /* Icon.png */; };
 		CEA6952C15A469B600318A2F /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CEA6952215A469B600318A2F /* Icon@2x.png */; };
 		CEA6952D15A469B600318A2F /* iTunesArtwork.png in Resources */ = {isa = PBXBuildFile; fileRef = CEA6952315A469B600318A2F /* iTunesArtwork.png */; };
 		CEA6952E15A469B600318A2F /* iTunesArtwork@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CEA6952415A469B600318A2F /* iTunesArtwork@2x.png */; };
 		CEE7F70D158F3F6A002DBB4B /* TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEE7F70B158F3F6A002DBB4B /* TableViewController.m */; };
 		CEE7F71A158F4BB5002DBB4B /* RGBMark.m in Sources */ = {isa = PBXBuildFile; fileRef = CEE7F719158F4BB5002DBB4B /* RGBMark.m */; };
 		CEF725BC15A5B533007E7918 /* Mark.m in Sources */ = {isa = PBXBuildFile; fileRef = CEF725BB15A5B533007E7918 /* Mark.m */; };
+		CEF725CB15AB7972007E7918 /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEF725CA15AB7972007E7918 /* CoreImage.framework */; };
+		CEF725D615AD76B1007E7918 /* UIImage+AverageColor.m in Sources */ = {isa = PBXBuildFile; fileRef = CEF725D515AD76B1007E7918 /* UIImage+AverageColor.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -91,13 +94,14 @@
 		CE8E32271580E4BE00AC0245 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		CE8E32281580E4BE00AC0245 /* segment-graph.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "segment-graph.h"; sourceTree = "<group>"; };
 		CE8E32291580E4BE00AC0245 /* segment-image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "segment-image.h"; sourceTree = "<group>"; };
+		CE9655E215AEF11C00F5D6BA /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		CE9655E415AF271400F5D6BA /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = opencv2.framework; sourceTree = "<group>"; };
 		CEA6951B15A469B600318A2F /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
 		CEA6951C15A469B600318A2F /* Icon-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72@2x.png"; sourceTree = "<group>"; };
 		CEA6951D15A469B600318A2F /* Icon-Small-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small-50.png"; sourceTree = "<group>"; };
 		CEA6951E15A469B600318A2F /* Icon-Small-50@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small-50@2x.png"; sourceTree = "<group>"; };
 		CEA6951F15A469B600318A2F /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small.png"; sourceTree = "<group>"; };
 		CEA6952015A469B600318A2F /* Icon-Small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small@2x.png"; sourceTree = "<group>"; };
-		CEA6952115A469B600318A2F /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		CEA6952215A469B600318A2F /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		CEA6952315A469B600318A2F /* iTunesArtwork.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iTunesArtwork.png; sourceTree = "<group>"; };
 		CEA6952415A469B600318A2F /* iTunesArtwork@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iTunesArtwork@2x.png"; sourceTree = "<group>"; };
@@ -107,6 +111,9 @@
 		CEE7F719158F4BB5002DBB4B /* RGBMark.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGBMark.m; sourceTree = "<group>"; };
 		CEF725BA15A5B533007E7918 /* Mark.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Mark.h; sourceTree = "<group>"; };
 		CEF725BB15A5B533007E7918 /* Mark.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Mark.m; sourceTree = "<group>"; };
+		CEF725CA15AB7972007E7918 /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
+		CEF725D415AD76B1007E7918 /* UIImage+AverageColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+AverageColor.h"; sourceTree = "<group>"; };
+		CEF725D515AD76B1007E7918 /* UIImage+AverageColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+AverageColor.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,10 +121,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CEF725CB15AB7972007E7918 /* CoreImage.framework in Frameworks */,
 				CE68614E15A3275600E38912 /* CoreData.framework in Frameworks */,
 				CE51D558156EB58E00632943 /* UIKit.framework in Frameworks */,
 				CE51D55A156EB58E00632943 /* Foundation.framework in Frameworks */,
 				CE51D55C156EB58E00632943 /* CoreGraphics.framework in Frameworks */,
+				CE9655E515AF271400F5D6BA /* opencv2.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -137,6 +146,9 @@
 		CE51D548156EB58E00632943 = {
 			isa = PBXGroup;
 			children = (
+				CEF725D415AD76B1007E7918 /* UIImage+AverageColor.h */,
+				CEF725D515AD76B1007E7918 /* UIImage+AverageColor.m */,
+				CEF725CA15AB7972007E7918 /* CoreImage.framework */,
 				CEF725BA15A5B533007E7918 /* Mark.h */,
 				CEF725BB15A5B533007E7918 /* Mark.m */,
 				CEA6951815A4589600318A2F /* Resources */,
@@ -146,6 +158,7 @@
 				CEE7F719158F4BB5002DBB4B /* RGBMark.m */,
 				CEE7F70B158F3F6A002DBB4B /* TableViewController.m */,
 				CEE7F70A158F3F6A002DBB4B /* TableViewController.h */,
+				CE9655E415AF271400F5D6BA /* opencv2.framework */,
 				CE51D55D156EB58E00632943 /* TeethWhiteSensor */,
 				CE51D57E156EB58E00632943 /* TeethWhiteSensorTests */,
 				CE51D556156EB58E00632943 /* Frameworks */,
@@ -252,11 +265,11 @@
 			children = (
 				CEA6951B15A469B600318A2F /* Icon-72.png */,
 				CEA6951C15A469B600318A2F /* Icon-72@2x.png */,
+				CE9655E215AEF11C00F5D6BA /* Icon.png */,
 				CEA6951D15A469B600318A2F /* Icon-Small-50.png */,
 				CEA6951E15A469B600318A2F /* Icon-Small-50@2x.png */,
 				CEA6951F15A469B600318A2F /* Icon-Small.png */,
 				CEA6952015A469B600318A2F /* Icon-Small@2x.png */,
-				CEA6952115A469B600318A2F /* Icon.png */,
 				CEA6952215A469B600318A2F /* Icon@2x.png */,
 				CEA6952315A469B600318A2F /* iTunesArtwork.png */,
 				CEA6952415A469B600318A2F /* iTunesArtwork@2x.png */,
@@ -345,10 +358,10 @@
 				CEA6952815A469B600318A2F /* Icon-Small-50@2x.png in Resources */,
 				CEA6952915A469B600318A2F /* Icon-Small.png in Resources */,
 				CEA6952A15A469B600318A2F /* Icon-Small@2x.png in Resources */,
-				CEA6952B15A469B600318A2F /* Icon.png in Resources */,
 				CEA6952C15A469B600318A2F /* Icon@2x.png in Resources */,
 				CEA6952D15A469B600318A2F /* iTunesArtwork.png in Resources */,
 				CEA6952E15A469B600318A2F /* iTunesArtwork@2x.png in Resources */,
+				CE9655E315AEF11C00F5D6BA /* Icon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -393,6 +406,7 @@
 				CEE7F71A158F4BB5002DBB4B /* RGBMark.m in Sources */,
 				CE68614B15A30D7800E38912 /* MarkModel.xcdatamodeld in Sources */,
 				CEF725BC15A5B533007E7918 /* Mark.m in Sources */,
+				CEF725D615AD76B1007E7918 /* UIImage+AverageColor.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -501,6 +515,10 @@
 		CE51D58A156EB58E00632943 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TeethWhiteSensor/TeethWhiteSensor-Prefix.pch";
 				INFOPLIST_FILE = "TeethWhiteSensor/TeethWhiteSensor-Info.plist";
@@ -512,6 +530,10 @@
 		CE51D58B156EB58E00632943 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TeethWhiteSensor/TeethWhiteSensor-Prefix.pch";
 				INFOPLIST_FILE = "TeethWhiteSensor/TeethWhiteSensor-Info.plist";

@@ -36,117 +36,10 @@ struct rgbb
     int y;
 } ;
 
-struct hsl 
-{
-    float h;
-    float s;
-    float l;
-    float alpha;
-};
-
-struct hslCart 
-{
-    float x;
-    float y;
-    float s;
-    float l;
-};
-
-struct hslxy 
-{
-    float h;
-    float s;
-    float l;
-    float alpha;
-    int x;
-    int y;
-};
-
-static inline hsl RGBToHSL(int red, int green, int blue) {
-	float mincolor = fminf(fminf(red, green), blue);
-	float maxcolor = fmaxf(fmaxf(red, green), blue);
-    hsl hsl;
-    
-	hsl.h = 0;
-	hsl.s = 0;
-	hsl.l = (maxcolor + mincolor)/2;
-    
-	if (maxcolor == mincolor)
-		return hsl;
-    
-	if (hsl.l < 0.5)
-		hsl.s = (maxcolor - mincolor)/(maxcolor + mincolor);
-	else
-		hsl.s = (maxcolor - mincolor)/(2.0 - maxcolor - mincolor);
-    
-	if (red == maxcolor)
-		hsl.h = (green - blue)/(maxcolor - mincolor);
-	else if (green == maxcolor)
-		hsl.h = 2.0 + (blue - red)/(maxcolor - mincolor);
-	else
-		hsl.h = 4.0 + (red - green)/(maxcolor - mincolor);
-    
-	hsl.h /= 6;
-    return hsl;
-}
-
-static inline rgbb HSLToRGB(hsl hsl) {
-    rgbb rgb;
-	if (hsl.s == 0) {
-		rgb.r = rgb.g = rgb.b = hsl.l;
-		return rgb;
-	}
-    
-	float temp2 = 0;
-    
-	if (hsl.l < 0.5)
-		temp2 = hsl.l*(1 + hsl.s);
-	else
-		temp2 = hsl.l+hsl.s-hsl.l*hsl.s;
-    
-	float temp1 = 2*hsl.l - temp2;
-    
-	float temp[3];
-	temp[0] = hsl.h + 1/3.0;
-	temp[1] = hsl.h;
-	temp[2] = hsl.h - 1/3.0;
-    
-	for (int i = 0; i < 3; i++) {
-		float temp3 = temp[i];
-		if (temp3 < 0)
-			temp3 += 1.0;
-		else if (temp3 > 1)
-			temp3 -= 1.0;
-        
-		float color = 0;
-		if (6*temp3 < 1)
-			color = temp1+(temp2-temp1)*6*temp3;
-		else if (2*temp3 < 1)
-			color = temp2;
-		else if (3*temp3 < 2)
-			color = temp1+(temp2 - temp1)*(4 - temp3*6);
-		else
-			color = temp1;
-        
-		switch (i) {
-			case 0:
-				rgb.r = color;
-				break;
-			case 1:
-				rgb.g = color;
-				break;
-			case 2:
-				rgb.b = color;
-				break;
-		}
-	}
-    
-    return rgb;
-}
 
 typedef struct
 {
-    std::map<int, hslxy> averages;
+    std::map<int, rgbb> averages;
     rgbb totalAvg; 
 } SegmentResult;
 
@@ -175,15 +68,6 @@ static inline float diff(unsigned char * im, int width, int height, int x1,int y
                 square(im[offset1+3]-im[offset2+3]));
 }
 
-static inline float diffE(image<hsl> *im, int x1, int y1, int x2, int y2) {
-    hsl hsl1 = imRef(im, x1,y1);
-    hsl hsl2 = imRef(im, x2,y2);
-    
-    return sqrt(square(hsl1.h - hsl2.h) +
-                square(hsl1.s - hsl2.l) +
-                square(hsl1.l - hsl2.l));
-}
-
 /*
  * Segment an image
  *
@@ -197,8 +81,8 @@ static inline float diffE(image<hsl> *im, int x1, int y1, int x2, int y2) {
  */
 SegmentResult segment_image(unsigned char* im, int width, int height, float sigma, float c, int min_size,
                             int *num_ccs) {
-    
-    float PI2 = 2 * M_PI;
+    //unsigned char* compact = (unsigned char*)malloc(4 * width * height);
+    //float PI2 = 2 * M_PI;
     
     NSDate *start = [NSDate date];
     
@@ -257,41 +141,38 @@ SegmentResult segment_image(unsigned char* im, int width, int height, float sigm
     
     printf("COMPS: %i", num_ccs[0]);
     
-    std::map<int, hslCart> sumColors;
+    std::map<int, rgbb> sumColors;
+    
     
     for (int y = 0; y < height; y++) {
         for (int x = 0; x < width; x++) {
             int comp = u->find(y * width + x);
-            
             int offset = 4*((width*y)+x);
             
-            std::map<int,hslCart>::iterator i = sumColors.find (comp);
+            std::map<int,rgbb>::iterator i = sumColors.find (comp);
             if (i == sumColors.end ()) {
-                hslCart color = {0,0,0,0};
-                sumColors.insert(std::pair<int,hslCart>(comp, color));
+                rgbb color = {0,0,0,0,0};
+                sumColors.insert(std::pair<int,rgbb>(comp, color));
             }
             else
             {
-                hsl newColor = RGBToHSL(im[offset+1], im[offset+2], im[offset+3]);
-                float hue = newColor.h * PI2;
-                i->second.x += sinf(hue);
-                i->second.y += cosf(hue);
-                i->second.s += newColor.s;
-                i->second.l += newColor.l;
+                i->second.r += im[offset + 1];
+                i->second.g += im[offset + 2];
+                i->second.b += im[offset + 3];
             }
         }
     }
     
-    std::map<int, hslxy> test;
+    std::map<int, rgbb> test;
     
-    float yellowStart = 25/360.0;
+    float yellowStart = 30/360.0;
     float yellowEnd = 55/360.0;
-    hslCart color;
+    rgbb color;
     for (int y = 0; y < height; y++) {
         for (int x = 0; x < width; x++) {
             int comp = u->find(y * width + x);
             int size = u->size(comp); 
-            std::map<int,hslCart>::iterator i = sumColors.find (comp);
+            std::map<int,rgbb>::iterator i = sumColors.find (comp);
             
             if (i == sumColors.end ()) {
             }
@@ -299,28 +180,25 @@ SegmentResult segment_image(unsigned char* im, int width, int height, float sigm
             {
                 color = i->second;
             }
-            
-            float atanN = atan2f(color.y/size, color.x/size);
-            if (atanN < 0) atanN = atanN + PI2;
-            
-            hsl avgHSL = {atanN/ PI2, color.s/size, color.l/size};
-            
-            if (avgHSL.h < yellowEnd && avgHSL.h > yellowStart) {
-                hslxy a = {avgHSL.h,avgHSL.s, avgHSL.l, avgHSL.alpha, x, y};
-                test.insert (std::pair<int,hslxy>(comp, a) );                     
+            float h,s,b,a;
+            UIColor *col = [UIColor colorWithRed:(color.r/size)/255.0 green:(color.g/size)/255.0 blue:(color.b/size)/255.0 alpha:1.0];
+            [col getHue:&h saturation:&s brightness:&b alpha:&a];
+            if (h < yellowEnd && h > yellowStart) {
+                rgbb a = {color.r/size,color.g/size, color.b/size, x, y};
+                test.insert (std::pair<int,rgbb>(comp, a) );   
             }
             else {
-                setRGB(im, width, height, x, y, colors[comp]);
+                rgb bela = {0,0,0};
+                setRGB(im, width, height, x, y, bela);
             }
         }
     }  
     
-    std::map<int,hslCart>::iterator tot;
+    std::map<int,rgbb>::iterator tot;
     
-    float totalX = 0;
-    float totalY = 0;
-    float totalS = 0;
-    float totalL = 0;
+    int totalR = 0;
+    int totalG = 0;
+    int totalB = 0;
     int totalSize = 0;
     
     
@@ -328,24 +206,19 @@ SegmentResult segment_image(unsigned char* im, int width, int height, float sigm
         int comp = tot->first;
         int size = u -> size(comp);
         if (test.count(comp) > 0 ) {
-            totalX = totalX + tot->second.x;
-            totalY = totalY + tot->second.y;
-            totalS = totalS + tot->second.s;
-            totalL = totalL + tot->second.l;
-            totalSize = totalSize + size;
+            totalR += tot->second.r;
+            totalG += tot->second.g;
+            totalB += tot->second.b;
+            totalSize += size;
         }
     }
     
     delete [] colors;  
     delete u;
     
+    rgbb tt = {totalR/totalSize, totalG/totalSize, totalB/totalSize};
     
-    float atanT = atan2f(totalY/totalSize, totalX/totalSize);
-    if (atanT < 0) atanT = atanT + PI2;
-    
-    hsl avg = {atanT / PI2, totalS/totalSize, totalL/totalSize};
-    
-    SegmentResult res = {test, HSLToRGB(avg)};
+    SegmentResult res = {test, tt};
     NSTimeInterval pass1 = [start timeIntervalSinceNow];
     NSLog(@"PASS: %f", pass1);
     return res;

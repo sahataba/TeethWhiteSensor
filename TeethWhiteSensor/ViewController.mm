@@ -9,6 +9,7 @@
 #import "ViewController.h"
 #import "SVProgressHUD.h"
 #import "UIKit/UIKit.h"
+#import "UIImage+AverageColor.h"
 
 #include "image.h"
 #include "misc.h"
@@ -59,8 +60,7 @@
     
     UIImage *fullImage = (UIImage *) [info objectForKey:UIImagePickerControllerEditedImage]; 
     //UIImage *thumbImage = [fullImage imageByScalingAndCroppingForSize:CGSizeMake(44, 44)];
-   
-    //NSData *imageData = [NSData dataWithData:UIImagePNGRepresentation(fullImage)];
+    
     CGImageRef inImage = fullImage.CGImage;
     CGContextRef cgctx = [self createARGBBitmapContextFromImage:inImage];
     
@@ -69,7 +69,7 @@
         // error creating context
         return;
     }
-
+    
     // Get image width, height. We'll use the entire image.
     size_t w = CGImageGetWidth(inImage);
     size_t h = CGImageGetHeight(inImage);
@@ -83,15 +83,15 @@
     // Now we can get a pointer to the image data associated with the bitmap
     // context.
     unsigned char* data = (unsigned char*)CGBitmapContextGetData (cgctx);
-
+    
     float sigma = 0.8;
     float k =100;
     int min_size = 200;
-		
+    
     int num_ccs; 
     SegmentResult res = segment_image(data, w, h, sigma, k, min_size, &num_ccs); 
-    std::map<int, hslxy> averages = res.averages;
-
+    std::map<int, rgbb> averages = res.averages;
+    
     // When finished, release the context
     CGContextRelease(cgctx); 
     // Free image data memory for the context
@@ -105,14 +105,13 @@
     NSString *myWatermarkText = @"Watermark";
     UIImage *watermarkedImage = nil;
     
-    
     UIGraphicsBeginImageContext(fullImage.size);
     [fullImage drawAtPoint: CGPointZero];
     
-    std::map<int,hslxy>::iterator it;
+    std::map<int,rgbb>::iterator it;
     for ( it=averages.begin() ; it != averages.end(); it++ ){
-        hslxy r = (*it).second;
-        myWatermarkText = [NSString stringWithFormat : @"[%f]", (r.h * 360.0)];
+        rgbb r = (*it).second;
+        myWatermarkText = [NSString stringWithFormat : @"[%i]", r.r];
         [myWatermarkText drawAtPoint: CGPointMake(r.x, r.y) withFont: [UIFont systemFontOfSize: 12]];
     }
     
@@ -123,14 +122,14 @@
     UIGraphicsEndImageContext();
     
     self.imageView.image = watermarkedImage;
-    RGBMark *tmp = [[RGBMark alloc] initWithDate:[NSDate date] r:res.totalAvg.r g:res.totalAvg.g b:res.totalAvg.b];
+    rgbb total = res.totalAvg;
+    RGBMark *tmp = [[RGBMark alloc] initWithDate:[NSDate date] r:total.r g:total.g b:total.b];
     mark = tmp;
 }
 
 #pragma Button actions
 - (IBAction)takePhotoTapped:(id)sender {
     if (self.navigationController == Nil) {
-        printf("BB");
     }
     
     if (self.picker == nil) {   
@@ -147,7 +146,7 @@
             
             self.picker = [[UIImagePickerController alloc] init];
             self.picker.delegate = self;
-            self.picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+            self.picker.sourceType = UIImagePickerControllerSourceTypeCamera;
             self.picker.allowsEditing = YES;    
             
             // 4) Present picker in main thread
@@ -236,26 +235,39 @@
 	int bitmapByteCount     = (bitmapBytesPerRow * pixelsHigh);
     
     CGContextRef ctx = CGBitmapContextCreate(rawData,
-                                CGImageGetWidth( imageRef ),
-                                CGImageGetHeight( imageRef ),
-                                8,
-                                bitmapBytesPerRow,
-                                CGImageGetColorSpace( imageRef ),
-                                kCGImageAlphaPremultipliedFirst ); 
+                                             CGImageGetWidth( imageRef ),
+                                             CGImageGetHeight( imageRef ),
+                                             8,
+                                             bitmapBytesPerRow,
+                                             CGImageGetColorSpace( imageRef ),
+                                             kCGImageAlphaPremultipliedFirst ); 
     
     imageRef = CGBitmapContextCreateImage (ctx);
     UIImage* rawImage = [UIImage imageWithCGImage:imageRef];  
     
     CGContextRelease(ctx);  
-        
+    
     free(rawData);
     return rawImage;
 }
 
 - (IBAction)done:(id)sender {
     [[self presentingViewController] dismissModalViewControllerAnimated:YES];
-    printf("RRRR %i", self.mark.r);
     [self.delegate didSave:self.mark];
+}
+
+- (UIImage *)imageWithColor:(UIColor *)color size:(float)size{
+    CGRect rect = CGRectMake(0.0f, 0.0f, size, 1.0f);
+    UIGraphicsBeginImageContext(rect.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    CGContextSetFillColorWithColor(context, [color CGColor]);
+    CGContextFillRect(context, rect);
+    
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return image;
 }
 
 @end
