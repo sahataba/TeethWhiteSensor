@@ -168,6 +168,12 @@ SegmentResult segment_image(unsigned char* im, int width, int height, float sigm
     float yellowStart = 30/360.0;
     float yellowEnd = 55/360.0;
     rgbb color;
+    float totalBri = 0;
+    
+    int biBin[20] = { 0 };    
+    
+    //std::map<int,int>::iterator bi = biBin.find (comp);
+    
     for (int y = 0; y < height; y++) {
         for (int x = 0; x < width; x++) {
             int comp = u->find(y * width + x);
@@ -184,8 +190,12 @@ SegmentResult segment_image(unsigned char* im, int width, int height, float sigm
             UIColor *col = [UIColor colorWithRed:(color.r/size)/255.0 green:(color.g/size)/255.0 blue:(color.b/size)/255.0 alpha:1.0];
             [col getHue:&h saturation:&s brightness:&b alpha:&a];
             if (h < yellowEnd && h > yellowStart) {
+                totalBri += b; 
                 rgbb a = {color.r/size,color.g/size, color.b/size, x, y};
                 test.insert (std::pair<int,rgbb>(comp, a) );   
+                
+                int sec = round(b*20);
+                biBin[sec] += 1;
             }
             else {
                 rgb bela = {0,0,0};
@@ -193,6 +203,8 @@ SegmentResult segment_image(unsigned char* im, int width, int height, float sigm
             }
         }
     }  
+    
+    
     
     std::map<int,rgbb>::iterator tot;
     
@@ -213,6 +225,15 @@ SegmentResult segment_image(unsigned char* im, int width, int height, float sigm
         }
     }
     
+    float check = 0;
+    for (int i = 0; i < 20; i++) {
+        float pass = biBin[i]/(totalSize * 1.0);
+        check += pass;
+        NSLog(@"bin %i no %f", i * 5,  pass);
+    }
+    NSLog(@"check %f", check);
+
+    
     delete [] colors;  
     delete u;
     
@@ -221,6 +242,14 @@ SegmentResult segment_image(unsigned char* im, int width, int height, float sigm
     SegmentResult res = {test, tt};
     NSTimeInterval pass1 = [start timeIntervalSinceNow];
     NSLog(@"PASS: %f", pass1);
+    
+    float hh,ss,bb,aa;
+    UIColor *totCol = [UIColor colorWithRed:tt.r/255.0 green:tt.g/255.0 blue:tt.b/255.0 alpha:1.0];
+    [totCol getHue:&hh saturation:&ss brightness:&bb alpha:&aa]; 
+    
+    NSLog(@"Total Bri: %f", totalBri/totalSize);
+    NSLog(@"Total Bri2: %f", bb);
+
     return res;
 }
 

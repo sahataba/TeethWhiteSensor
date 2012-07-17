@@ -13,7 +13,6 @@
 
 #include "image.h"
 #include "misc.h"
-#include "pnmfile.h"
 #include "segment-image.h"
 
 @interface ViewController ()
@@ -146,7 +145,7 @@
             
             self.picker = [[UIImagePickerController alloc] init];
             self.picker.delegate = self;
-            self.picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+            self.picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
             self.picker.allowsEditing = YES;    
             
             // 4) Present picker in main thread
