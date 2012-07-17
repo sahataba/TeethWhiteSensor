@@ -90,7 +90,6 @@
 		CE8E32221580E4BE00AC0245 /* imconv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = imconv.h; sourceTree = "<group>"; };
 		CE8E32231580E4BE00AC0245 /* imutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = imutil.h; sourceTree = "<group>"; };
 		CE8E32251580E4BE00AC0245 /* misc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = misc.h; sourceTree = "<group>"; };
-		CE8E32261580E4BE00AC0245 /* pnmfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pnmfile.h; sourceTree = "<group>"; };
 		CE8E32271580E4BE00AC0245 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		CE8E32281580E4BE00AC0245 /* segment-graph.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "segment-graph.h"; sourceTree = "<group>"; };
 		CE8E32291580E4BE00AC0245 /* segment-image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "segment-image.h"; sourceTree = "<group>"; };
@@ -252,7 +251,6 @@
 				CE8E32221580E4BE00AC0245 /* imconv.h */,
 				CE8E32231580E4BE00AC0245 /* imutil.h */,
 				CE8E32251580E4BE00AC0245 /* misc.h */,
-				CE8E32261580E4BE00AC0245 /* pnmfile.h */,
 				CE8E32271580E4BE00AC0245 /* README */,
 				CE8E32281580E4BE00AC0245 /* segment-graph.h */,
 				CE8E32291580E4BE00AC0245 /* segment-image.h */,
