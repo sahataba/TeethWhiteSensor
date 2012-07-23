@@ -84,8 +84,8 @@
     unsigned char* data = (unsigned char*)CGBitmapContextGetData (cgctx);
     
     float sigma = 0.8;
-    float k =100;
-    int min_size = 200;
+    float k =200;
+    int min_size = 500;
     
     int num_ccs; 
     SegmentResult res = segment_image(data, w, h, sigma, k, min_size, &num_ccs); 
