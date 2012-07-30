@@ -97,7 +97,7 @@
     }
     
     Mark *markAtIndex = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    NSString *mark = [NSString stringWithFormat : @"[%i %i %i]", markAtIndex.red.intValue,markAtIndex.green.intValue,markAtIndex.blue.intValue ];
+    NSString *mark = [NSString stringWithFormat : @"[%i %i %i] %i", markAtIndex.red.intValue,markAtIndex.green.intValue,markAtIndex.blue.intValue, markAtIndex.s.intValue ];
     [[cell textLabel] setText:mark];
     [[cell detailTextLabel] setText: [formatter stringFromDate:(NSDate *)markAtIndex.date]];
     
@@ -171,19 +171,13 @@
 }
 
 
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-
-/*
 // Override to support conditional rearranging of the table view.
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Return NO if you do not want the item to be re-orderable.
-    return YES;
+    return NO;
 }
-*/
+
 
 #pragma mark - Table view delegate
 
@@ -196,6 +190,10 @@
      // Pass the selected object to the new view controller.
      [self.navigationController pushViewController:detailViewController animated:YES];
      */
+    UITableViewCell *c = [tableView cellForRowAtIndexPath:indexPath];
+    if (c.accessoryType == UITableViewCellAccessoryCheckmark) {
+        [c setAccessoryType:UITableViewCellAccessoryNone];
+    }
 }
 
 #pragma mark - ViewControllerDelegate
@@ -211,6 +209,7 @@
     newMark.red = [NSNumber numberWithInt: mark.r];
     newMark.green = [NSNumber numberWithInt: mark.g];
     newMark.blue = [NSNumber numberWithInt: mark.b];
+    newMark.s = [NSNumber numberWithInt: mark.s];
     newMark.date = [NSDate date];
     // Save the context.
     NSError *error;

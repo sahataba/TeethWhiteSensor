@@ -1,4 +1,4 @@
-x/*! \file tracking.hpp
+/*! \file tracking.hpp
  \brief The Object and Feature Tracking
  */
 

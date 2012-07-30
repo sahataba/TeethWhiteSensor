@@ -41,6 +41,7 @@ typedef struct
 {
     std::map<int, rgbb> averages;
     rgbb totalAvg; 
+    int s;
 } SegmentResult;
 
 rgb random_rgb(){ 
@@ -170,9 +171,12 @@ SegmentResult segment_image(unsigned char* im, int width, int height, float sigm
     rgbb color;
     float totalBri = 0;
     
+    int satBin[20] = { 0 };    
     int biBin[20] = { 0 };    
-    
+    int hueBin[36] = { 0 };    
+
     //std::map<int,int>::iterator bi = biBin.find (comp);
+    int tr,tg,tb,ts = 0;
     
     for (int y = 0; y < height; y++) {
         for (int x = 0; x < width; x++) {
@@ -186,20 +190,31 @@ SegmentResult segment_image(unsigned char* im, int width, int height, float sigm
             {
                 color = i->second;
             }
+            rgbb aaa = {color.r/size,color.g/size, color.b/size, x, y};
             float h,s,b,a;
             UIColor *col = [UIColor colorWithRed:(color.r/size)/255.0 green:(color.g/size)/255.0 blue:(color.b/size)/255.0 alpha:1.0];
             [col getHue:&h saturation:&s brightness:&b alpha:&a];
-            if (h < yellowEnd && h > yellowStart) {
+            if (abs(aaa.r - aaa.g) < 35 && aaa.r > 150/*h < yellowEnd && h > yellowStart || (b > 0.97 && !(h < yellowEnd || h > 330))*/) {
                 totalBri += b; 
-                rgbb a = {color.r/size,color.g/size, color.b/size, x, y};
-                test.insert (std::pair<int,rgbb>(comp, a) );   
+                test.insert (std::pair<int,rgbb>(comp, aaa) );   
                 
-                int sec = round(b*20);
+                int sec = floor(b*20);
+                int hue = floor(h*36);
+                int sat = floor(s*20);
+
                 biBin[sec] += 1;
+                hueBin[hue] += 1;
+                satBin[sat] += 1;
+                
+                int offset = 4*((width*y)+x);
+                tr += im[offset + 1];
+                tg += im[offset + 2];
+                tb += im[offset + 3];
+                ts += 1;
             }
             else {
                 rgb bela = {0,0,0};
-                setRGB(im, width, height, x, y, bela);
+                setRGB(im, width, height, x, y, colors[comp]);
             }
         }
     }  
@@ -232,14 +247,25 @@ SegmentResult segment_image(unsigned char* im, int width, int height, float sigm
         NSLog(@"bin %i no %f", i * 5,  pass);
     }
     NSLog(@"check %f", check);
+    
+    for (int i = 0; i < 36; i++) {
+        float pass = hueBin[i]/(totalSize * 1.0);
+        //check += pass;
+        NSLog(@"hue bin %i no %f", i * 10,  pass);
+    }
 
+    //for (int i = 0; i < 20; i++) {
+        //float pass = satBin[i]/(totalSize * 1.0);
+        //check += pass;
+        NSLog(@"sat bin %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f ", satBin[0]/(totalSize * 1.0), satBin[1]/(totalSize * 1.0), satBin[2]/(totalSize * 1.0), satBin[3]/(totalSize * 1.0), satBin[4]/(totalSize * 1.0), satBin[5]/(totalSize * 1.0), satBin[6]/(totalSize * 1.0), satBin[7]/(totalSize * 1.0), satBin[8]/(totalSize * 1.0), satBin[9]/(totalSize * 1.0), satBin[10]/(totalSize * 1.0), satBin[11]/(totalSize * 1.0), satBin[12]/(totalSize * 1.0), satBin[13]/(totalSize * 1.0), satBin[14]/(totalSize * 1.0), satBin[15]/(totalSize * 1.0), satBin[16]/(totalSize * 1.0), satBin[17]/(totalSize * 1.0), satBin[18]/(totalSize * 1.0), satBin[19]/(totalSize * 1.0));
+    //}
     
     delete [] colors;  
     delete u;
     
     rgbb tt = {totalR/totalSize, totalG/totalSize, totalB/totalSize};
+    rgbb tt2 = {tr/ts, tg/ts, tb/ts};
     
-    SegmentResult res = {test, tt};
     NSTimeInterval pass1 = [start timeIntervalSinceNow];
     NSLog(@"PASS: %f", pass1);
     
@@ -249,7 +275,10 @@ SegmentResult segment_image(unsigned char* im, int width, int height, float sigm
     
     NSLog(@"Total Bri: %f", totalBri/totalSize);
     NSLog(@"Total Bri2: %f", bb);
-
+    NSLog(@"Total Sat2: %f", ss);
+    NSLog(@"TT2 %i %i %i", tt2.r,tt2.g,tt2.b);
+ 
+    SegmentResult res = {test, tt, floor(ss * 100)};
     return res;
 }
 

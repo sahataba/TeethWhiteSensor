@@ -21,6 +21,7 @@
 		CE51D57B156EB58E00632943 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE51D559156EB58E00632943 /* Foundation.framework */; };
 		CE51D583156EB58E00632943 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CE51D581156EB58E00632943 /* InfoPlist.strings */; };
 		CE51D586156EB58E00632943 /* TeethWhiteSensorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CE51D585156EB58E00632943 /* TeethWhiteSensorTests.m */; };
+		CE659CFE15BEE9E400094166 /* UIImage+OpenCV.mm in Sources */ = {isa = PBXBuildFile; fileRef = CE659CFD15BEE9E400094166 /* UIImage+OpenCV.mm */; };
 		CE68614B15A30D7800E38912 /* MarkModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CE68614915A30D7800E38912 /* MarkModel.xcdatamodeld */; };
 		CE68614E15A3275600E38912 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE68614D15A3275600E38912 /* CoreData.framework */; };
 		CE8E321A1580CF3000AC0245 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = CE8E32191580CF3000AC0245 /* SVProgressHUD.m */; };
@@ -30,7 +31,6 @@
 		CE8E322F1580E4BE00AC0245 /* README in Resources */ = {isa = PBXBuildFile; fileRef = CE8E32271580E4BE00AC0245 /* README */; };
 		CE8E32301580E4BE00AC0245 /* README in Resources */ = {isa = PBXBuildFile; fileRef = CE8E32271580E4BE00AC0245 /* README */; };
 		CE9655E315AEF11C00F5D6BA /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = CE9655E215AEF11C00F5D6BA /* Icon.png */; };
-		CE9655E515AF271400F5D6BA /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE9655E415AF271400F5D6BA /* opencv2.framework */; };
 		CEA6952515A469B600318A2F /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = CEA6951B15A469B600318A2F /* Icon-72.png */; };
 		CEA6952615A469B600318A2F /* Icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CEA6951C15A469B600318A2F /* Icon-72@2x.png */; };
 		CEA6952715A469B600318A2F /* Icon-Small-50.png in Resources */ = {isa = PBXBuildFile; fileRef = CEA6951D15A469B600318A2F /* Icon-Small-50.png */; };
@@ -40,6 +40,10 @@
 		CEA6952C15A469B600318A2F /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CEA6952215A469B600318A2F /* Icon@2x.png */; };
 		CEA6952D15A469B600318A2F /* iTunesArtwork.png in Resources */ = {isa = PBXBuildFile; fileRef = CEA6952315A469B600318A2F /* iTunesArtwork.png */; };
 		CEA6952E15A469B600318A2F /* iTunesArtwork@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CEA6952415A469B600318A2F /* iTunesArtwork@2x.png */; };
+		CEE46F9215BEEF980083C417 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEE46F9115BEEF980083C417 /* opencv2.framework */; };
+		CEE46F9415BEF4A70083C417 /* UIImage+OpenCV.mm in Sources */ = {isa = PBXBuildFile; fileRef = CE659CFD15BEE9E400094166 /* UIImage+OpenCV.mm */; };
+		CEE46F9915BEF7EA0083C417 /* haarcascade_frontalface_default.xml in Resources */ = {isa = PBXBuildFile; fileRef = CEE46F9715BEF7EA0083C417 /* haarcascade_frontalface_default.xml */; };
+		CEE46F9A15BEF7EA0083C417 /* haarcascade_mcs_mouth.xml in Resources */ = {isa = PBXBuildFile; fileRef = CEE46F9815BEF7EA0083C417 /* haarcascade_mcs_mouth.xml */; };
 		CEE7F70D158F3F6A002DBB4B /* TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEE7F70B158F3F6A002DBB4B /* TableViewController.m */; };
 		CEE7F71A158F4BB5002DBB4B /* RGBMark.m in Sources */ = {isa = PBXBuildFile; fileRef = CEE7F719158F4BB5002DBB4B /* RGBMark.m */; };
 		CEF725BC15A5B533007E7918 /* Mark.m in Sources */ = {isa = PBXBuildFile; fileRef = CEF725BB15A5B533007E7918 /* Mark.m */; };
@@ -78,6 +82,8 @@
 		CE51D582156EB58E00632943 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		CE51D584156EB58E00632943 /* TeethWhiteSensorTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TeethWhiteSensorTests.h; sourceTree = "<group>"; };
 		CE51D585156EB58E00632943 /* TeethWhiteSensorTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TeethWhiteSensorTests.m; sourceTree = "<group>"; };
+		CE659CFB15BEE9C500094166 /* UIImage+OpenCV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+OpenCV.h"; sourceTree = "<group>"; };
+		CE659CFD15BEE9E400094166 /* UIImage+OpenCV.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "UIImage+OpenCV.mm"; sourceTree = "<group>"; };
 		CE68614A15A30D7800E38912 /* MarkModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MarkModel.xcdatamodel; sourceTree = "<group>"; };
 		CE68614D15A3275600E38912 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		CE8E32181580CF3000AC0245 /* SVProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressHUD.h; sourceTree = "<group>"; };
@@ -94,7 +100,6 @@
 		CE8E32281580E4BE00AC0245 /* segment-graph.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "segment-graph.h"; sourceTree = "<group>"; };
 		CE8E32291580E4BE00AC0245 /* segment-image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "segment-image.h"; sourceTree = "<group>"; };
 		CE9655E215AEF11C00F5D6BA /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
-		CE9655E415AF271400F5D6BA /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = opencv2.framework; sourceTree = "<group>"; };
 		CEA6951B15A469B600318A2F /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
 		CEA6951C15A469B600318A2F /* Icon-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72@2x.png"; sourceTree = "<group>"; };
 		CEA6951D15A469B600318A2F /* Icon-Small-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small-50.png"; sourceTree = "<group>"; };
@@ -104,6 +109,9 @@
 		CEA6952215A469B600318A2F /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		CEA6952315A469B600318A2F /* iTunesArtwork.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iTunesArtwork.png; sourceTree = "<group>"; };
 		CEA6952415A469B600318A2F /* iTunesArtwork@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iTunesArtwork@2x.png"; sourceTree = "<group>"; };
+		CEE46F9115BEEF980083C417 /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = opencv2.framework; path = ../../../Desktop/opencv2.framework; sourceTree = "<group>"; };
+		CEE46F9715BEF7EA0083C417 /* haarcascade_frontalface_default.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = haarcascade_frontalface_default.xml; sourceTree = "<group>"; };
+		CEE46F9815BEF7EA0083C417 /* haarcascade_mcs_mouth.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = haarcascade_mcs_mouth.xml; sourceTree = "<group>"; };
 		CEE7F70A158F3F6A002DBB4B /* TableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableViewController.h; sourceTree = "<group>"; };
 		CEE7F70B158F3F6A002DBB4B /* TableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableViewController.m; sourceTree = "<group>"; };
 		CEE7F718158F4973002DBB4B /* RGBMark.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RGBMark.h; sourceTree = "<group>"; };
@@ -120,12 +128,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CEE46F9215BEEF980083C417 /* opencv2.framework in Frameworks */,
 				CEF725CB15AB7972007E7918 /* CoreImage.framework in Frameworks */,
 				CE68614E15A3275600E38912 /* CoreData.framework in Frameworks */,
 				CE51D558156EB58E00632943 /* UIKit.framework in Frameworks */,
 				CE51D55A156EB58E00632943 /* Foundation.framework in Frameworks */,
 				CE51D55C156EB58E00632943 /* CoreGraphics.framework in Frameworks */,
-				CE9655E515AF271400F5D6BA /* opencv2.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -146,6 +154,8 @@
 			isa = PBXGroup;
 			children = (
 				CEF725D415AD76B1007E7918 /* UIImage+AverageColor.h */,
+				CE659CFD15BEE9E400094166 /* UIImage+OpenCV.mm */,
+				CE659CFB15BEE9C500094166 /* UIImage+OpenCV.h */,
 				CEF725D515AD76B1007E7918 /* UIImage+AverageColor.m */,
 				CEF725CA15AB7972007E7918 /* CoreImage.framework */,
 				CEF725BA15A5B533007E7918 /* Mark.h */,
@@ -157,7 +167,6 @@
 				CEE7F719158F4BB5002DBB4B /* RGBMark.m */,
 				CEE7F70B158F3F6A002DBB4B /* TableViewController.m */,
 				CEE7F70A158F3F6A002DBB4B /* TableViewController.h */,
-				CE9655E415AF271400F5D6BA /* opencv2.framework */,
 				CE51D55D156EB58E00632943 /* TeethWhiteSensor */,
 				CE51D57E156EB58E00632943 /* TeethWhiteSensorTests */,
 				CE51D556156EB58E00632943 /* Frameworks */,
@@ -177,6 +186,7 @@
 		CE51D556156EB58E00632943 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CEE46F9115BEEF980083C417 /* opencv2.framework */,
 				CE51D557156EB58E00632943 /* UIKit.framework */,
 				CE51D559156EB58E00632943 /* Foundation.framework */,
 				CE51D55B156EB58E00632943 /* CoreGraphics.framework */,
@@ -261,6 +271,8 @@
 		CEA6951815A4589600318A2F /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				CEE46F9715BEF7EA0083C417 /* haarcascade_frontalface_default.xml */,
+				CEE46F9815BEF7EA0083C417 /* haarcascade_mcs_mouth.xml */,
 				CEA6951B15A469B600318A2F /* Icon-72.png */,
 				CEA6951C15A469B600318A2F /* Icon-72@2x.png */,
 				CE9655E215AEF11C00F5D6BA /* Icon.png */,
@@ -360,6 +372,8 @@
 				CEA6952D15A469B600318A2F /* iTunesArtwork.png in Resources */,
 				CEA6952E15A469B600318A2F /* iTunesArtwork@2x.png in Resources */,
 				CE9655E315AEF11C00F5D6BA /* Icon.png in Resources */,
+				CEE46F9915BEF7EA0083C417 /* haarcascade_frontalface_default.xml in Resources */,
+				CEE46F9A15BEF7EA0083C417 /* haarcascade_mcs_mouth.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -396,6 +410,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CEE46F9415BEF4A70083C417 /* UIImage+OpenCV.mm in Sources */,
 				CE51D564156EB58E00632943 /* main.m in Sources */,
 				CE51D568156EB58E00632943 /* AppDelegate.m in Sources */,
 				CE51D571156EB58E00632943 /* ViewController.mm in Sources */,
@@ -414,6 +429,7 @@
 			files = (
 				CE51D586156EB58E00632943 /* TeethWhiteSensorTests.m in Sources */,
 				CE8E321B1580CF3000AC0245 /* SVProgressHUD.m in Sources */,
+				CE659CFE15BEE9E400094166 /* UIImage+OpenCV.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -516,6 +532,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/../../../Desktop\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TeethWhiteSensor/TeethWhiteSensor-Prefix.pch";
@@ -531,6 +548,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/../../../Desktop\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TeethWhiteSensor/TeethWhiteSensor-Prefix.pch";

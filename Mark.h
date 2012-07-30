@@ -16,5 +16,9 @@
 @property (nonatomic, retain) NSDate * date;
 @property (nonatomic, retain) NSNumber * green;
 @property (nonatomic, retain) NSNumber * red;
+@property (nonatomic, retain) NSNumber * h;
+@property (nonatomic, retain) NSNumber * s;
+@property (nonatomic, retain) NSNumber * l;
+
 
 @end

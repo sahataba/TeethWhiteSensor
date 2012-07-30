@@ -15,5 +15,8 @@
 @dynamic date;
 @dynamic green;
 @dynamic red;
+@dynamic h;
+@dynamic s;
+@dynamic l;
 
 @end

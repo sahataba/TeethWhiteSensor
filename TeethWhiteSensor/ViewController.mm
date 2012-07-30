@@ -10,6 +10,9 @@
 #import "SVProgressHUD.h"
 #import "UIKit/UIKit.h"
 #import "UIImage+AverageColor.h"
+#import "UIImage+OpenCV.h"
+
+using namespace cv;
 
 #include "image.h"
 #include "misc.h"
@@ -26,6 +29,44 @@
 @synthesize imageView = _imageView;
 @synthesize delegate;
 @synthesize mark;
+
+/*Mouth detect ion*/
+inline void detectMouth( IplImage *img,CvRect *r, CvMemStorage* storage ) {
+    
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"haarcascade_mcs_mouth" ofType:@"xml"];
+    CvHaarClassifierCascade* cascade_mouth = (CvHaarClassifierCascade*)cvLoad([path cStringUsingEncoding:NSASCIIStringEncoding], NULL, NULL, NULL); 
+    
+    CvSeq *mouth;
+    //mouth detecetion - set ROI
+    cvSetImageROI(img,/* the source image */ 
+                  cvRect(r->x,            /* x = start from leftmost */
+                         r->y+(r->height *2/3), /* y = a few pixels from the top */
+                         r->width,        /* width = same width with the face */
+                         r->height/3    /* height = 1/3 of face height */
+                         )
+                  );
+    mouth = cvHaarDetectObjects(img,/* the source image, with the estimated location defined */ 
+                                cascade_mouth,      /* the eye classifier */ 
+                                storage,        /* memory buffer */
+                                1.15, 4, 0,     /* tune for your app */ 
+                                cvSize(25, 15)  /* minimum detection scale */
+                                );
+    
+    for( int i = 0; i < (mouth ? mouth->total : 0); i++ )
+    {
+        
+        CvRect *mouth_cord = (CvRect*)cvGetSeqElem(mouth, i);
+        /* draw a red rectangle */
+        cvRectangle(img, 
+                    cvPoint(mouth_cord->x, mouth_cord->y), 
+                    cvPoint(mouth_cord->x + mouth_cord->width, mouth_cord->y + mouth_cord->height),
+                    CV_RGB(255,255, 255), 
+                    1, 8, 0
+                    );
+    }
+    //end mouth detection
+    
+}
 
 - (void)viewDidLoad
 {
@@ -57,7 +98,8 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     [self dismissModalViewControllerAnimated:YES];
     
-    UIImage *fullImage = (UIImage *) [info objectForKey:UIImagePickerControllerEditedImage]; 
+    UIImage *fullImageX = (UIImage *) [info objectForKey:UIImagePickerControllerEditedImage]; 
+    UIImage *fullImage = [self extractMouth:fullImageX];
     //UIImage *thumbImage = [fullImage imageByScalingAndCroppingForSize:CGSizeMake(44, 44)];
     
     CGImageRef inImage = fullImage.CGImage;
@@ -122,7 +164,7 @@
     
     self.imageView.image = watermarkedImage;
     rgbb total = res.totalAvg;
-    RGBMark *tmp = [[RGBMark alloc] initWithDate:[NSDate date] r:total.r g:total.g b:total.b];
+    RGBMark *tmp = [[RGBMark alloc] initWithDate:[NSDate date] r:total.r g:total.g b:total.b s:res.s];
     mark = tmp;
 }
 
@@ -267,6 +309,35 @@
     UIGraphicsEndImageContext();
     
     return image;
+}
+
+// Perform image processing on the last captured frame and display the results
+- (UIImage*)extractMouth:(UIImage*) image
+{
+    cv::Mat _lastFrame = [image CVMat];
+    
+    CvMemStorage* storage = cvCreateMemStorage(0);
+    
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"haarcascade_frontalface_default" ofType:@"xml"];//@"haarcascade_frontalface_default" ofType:@"xml"];
+    CvHaarClassifierCascade* cascade2 = (CvHaarClassifierCascade*)cvLoad([path cStringUsingEncoding:NSASCIIStringEncoding], NULL, NULL, NULL); // <-- here
+    
+     IplImage ii = _lastFrame;
+     CvSeq* faces = cvHaarDetectObjects(&ii, cascade2, storage, 1.2, 2, CV_HAAR_DO_CANNY_PRUNING, cvSize(20, 20));
+     
+     static CvScalar colors[] = { {{0,0,255}}, {{0,128,255}}, {{0,255,255}}, 
+     {{0,255,0}}, {{255,128,0}}, {{255,255,0}}, {{255,0,0}}, {{255,0,255}} };
+     
+     CvRect* r;
+     // Loop through objects and draw boxes
+     for( int i = 0; i < (faces ? faces->total : 0 ); i++ ){
+     r = ( CvRect* )cvGetSeqElem( faces, i );
+     cvRectangle( &ii, cvPoint( r->x, r->y ), cvPoint( r->x + r->width, r->y + r->height ),
+     colors[i%8]);
+     //cvResetImageROI(&ii);
+     detectMouth(&ii, r, storage);
+     }
+    
+    return [UIImage imageWithCVMat:_lastFrame];
 }
 
 @end
